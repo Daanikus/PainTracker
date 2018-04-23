@@ -1,4 +1,4 @@
-package com.github.daanikus.paintracker.db;
+package com.github.daanikus.paintracker;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
