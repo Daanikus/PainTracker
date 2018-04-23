@@ -9,11 +9,9 @@ public class Pain {
     @PrimaryKey
     private int id;
 
-    @ColumnInfo(name = "comment")
     private String comment;
 
-    @ColumnInfo(name = "timestamp")
-    private int time;
+    private int timestamp;
 
     public void setComment(String comment) {
         this.comment = comment;
@@ -23,11 +21,11 @@ public class Pain {
         return this.comment;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setTime(int timestamp) {
+        this.timestamp = timestamp;
     }
 
     public int getTime() {
-        return this.time;
+        return this.timestamp;
     }
 }
