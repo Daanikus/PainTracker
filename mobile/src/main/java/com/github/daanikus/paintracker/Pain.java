@@ -10,13 +10,14 @@ import io.reactivex.annotations.NonNull;
 public class Pain {
     @PrimaryKey(autoGenerate = true)
     private int id;
-
     private String comment;
+    private long timestamp;
+    private int painLevel;
 
-    private int timestamp;
-
-    public Pain(String comment) {
+    public Pain(String comment, int painLevel, long timestamp) {
         this.comment = comment;
+        this.painLevel = painLevel;
+        this.timestamp = timestamp;
     }
 
     public int getId() { return this.id; }
@@ -31,11 +32,15 @@ public class Pain {
         return this.comment;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return this.timestamp;
     }
+
+    public int getPainLevel() { return this.painLevel; }
+
+    public void setPainLevel(int painLevel) { this.painLevel = painLevel; }
 }

@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {Pain.class}, version = 1, exportSchema = false)
+@Database(entities = {Pain.class}, version = 2, exportSchema = false)
 public abstract class PainDatabase extends RoomDatabase {
 
     public abstract PainDao dao();

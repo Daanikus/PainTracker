@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/graph_text_view"
+    <com.jjoe64.graphview.GraphView
+        android:padding="@dimen/small_padding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:text="Test Test"/>
+        android:layout_height="250dp"
+        android:foregroundGravity="top|center"
+        android:id="@+id/graph" />
 
 </android.support.constraint.ConstraintLayout>

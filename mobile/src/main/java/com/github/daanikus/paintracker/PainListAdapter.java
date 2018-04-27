@@ -12,11 +12,11 @@ import java.util.List;
 public class PainListAdapter extends RecyclerView.Adapter<PainListAdapter.PainViewHolder> {
 
     class PainViewHolder extends RecyclerView.ViewHolder {
-        private final TextView wordItemView;
+        private final TextView painItemView;
 
         private PainViewHolder(View itemView) {
             super(itemView);
-            wordItemView = itemView.findViewById(R.id.textView);
+            painItemView = itemView.findViewById(R.id.textView);
         }
     }
 
@@ -35,10 +35,10 @@ public class PainListAdapter extends RecyclerView.Adapter<PainListAdapter.PainVi
     public void onBindViewHolder(PainViewHolder holder, int position) {
         if (mPains != null) {
             Pain current = mPains.get(position);
-            holder.wordItemView.setText(current.getComment());
+            holder.painItemView.setText(current.getComment());
         } else {
             // Covers the case of data not being ready yet.
-            holder.wordItemView.setText("No Data");
+            holder.painItemView.setText("No Data");
         }
     }
 

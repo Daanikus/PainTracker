@@ -59,4 +59,7 @@ dependencies {
 
     // RxJava support for Paging
     implementation "android.arch.paging:rxjava2:1.0.0-alpha1"
+
+    // Graph view library
+    implementation 'com.jjoe64:graphview:4.2.2'
 }

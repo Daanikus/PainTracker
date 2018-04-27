@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:id="@+id/pain_seekbar" />
+
     <EditText
         android:id="@+id/edit_pain"
         android:layout_width="match_parent"
