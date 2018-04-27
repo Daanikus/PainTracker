@@ -39,6 +39,7 @@
         android:layout_gravity="bottom"/>
     <include
         layout="@layout/fragment_graph"
+        android:layout_margin="@dimen/big_padding"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_gravity="top"/>

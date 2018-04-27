@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -25,6 +26,8 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.graph = findViewById(R.id.graph);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        initializeGraph();
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final PainListAdapter adapter = new PainListAdapter(this);
@@ -90,38 +94,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void initializeGraph() {
-        this.graph = findViewById(R.id.graph);
-        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-        graph.addSeries(series);
-
-        series.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(MainActivity.this, "Series1: On Data Point clicked: "+dataPoint, Toast.LENGTH_SHORT).show();
-                Toast.makeText(MainActivity.this, "Series1: On Data Point clicked: "+dataPoint, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public void updateGraph(List<Pain> pains) {
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
         this.graph.removeAllSeries();
-
         for (Pain p : pains) {
-            series.appendData(new DataPoint(p.getTimestamp() / 100000, p.getPainLevel()), true, 5);
+            Date date = new java.util.Date(p.getTimestamp() * 100L);
+            SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+            String formattedDate = sdf.format(date);
+            series.appendData(new DataPoint(p.getTimestamp(), p.getPainLevel()), true, 5);
         }
         this.graph.addSeries(series);
+        // set date label formatter
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(MainActivity.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 5 because of the space
+
+        // as we use dates as labels, the human rounding to nice readable numbers
+        // is not necessary
+        graph.getGridLabelRenderer().setHumanRounding(false);
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(MainActivity.this, "Series1: On Data Point clicked: "+dataPoint, Toast.LENGTH_SHORT).show();
                 Toast.makeText(MainActivity.this, "Series1: On Data Point clicked: "+dataPoint, Toast.LENGTH_SHORT).show();
             }
         });

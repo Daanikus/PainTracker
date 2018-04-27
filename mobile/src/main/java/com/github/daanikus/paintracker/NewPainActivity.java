@@ -32,7 +32,7 @@ public class NewPainActivity extends AppCompatActivity {
                 } else {
                     String painComment = mEditPainView.getText().toString();
                     int progress = seekBar.getProgress();
-                    long time = System.currentTimeMillis() / 1000;
+                    long time = System.currentTimeMillis();
                     Bundle b = new Bundle();
 
                     b.putString("COMMENT", painComment);
