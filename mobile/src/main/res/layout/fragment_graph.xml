@@ -5,9 +5,10 @@
 
     <com.jjoe64.graphview.GraphView
         android:padding="@dimen/small_padding"
+
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:foregroundGravity="top|center"
+        android:foregroundGravity="center"
         android:id="@+id/graph" />
 
 </android.support.constraint.ConstraintLayout>

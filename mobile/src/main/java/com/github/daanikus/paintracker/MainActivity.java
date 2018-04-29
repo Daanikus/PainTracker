@@ -1,14 +1,11 @@
 package com.github.daanikus.paintracker;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +18,6 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
-import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
@@ -54,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        // TODO move RecyclerView stuff to new class file
+        //RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final PainListAdapter adapter = new PainListAdapter(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mPainViewModel = ViewModelProviders.of(this).get(PainViewModel.class);
         mPainViewModel.getAllPains().observe(this, new Observer<List<Pain>>() {
@@ -79,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
             Bundle b = data.getExtras();
             Pain pain;
             try {
-                pain = new Pain(b.getString("COMMENT"), b.getInt("PAIN_LEVEL"), b.getLong("TIMESTAMP"));
+                pain = new Pain(b.getString("COMMENT"),
+                        b.getInt("PAIN_LEVEL"),
+                        b.getLong("TIMESTAMP"));
                 mPainViewModel.insert(pain);
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -101,11 +99,13 @@ public class MainActivity extends AppCompatActivity {
             Date date = new java.util.Date(p.getTimestamp() * 100L);
             SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
             String formattedDate = sdf.format(date);
-            series.appendData(new DataPoint(p.getTimestamp(), p.getPainLevel()), true, 5);
+            series.appendData(new DataPoint(p.getTimestamp(), p.getPainLevel()),
+                    true, 5);
         }
         this.graph.addSeries(series);
         // set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(MainActivity.this));
+        graph.getGridLabelRenderer().setLabelFormatter(
+                new DateAsXAxisLabelFormatter(MainActivity.this));
         graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 5 because of the space
 
         // as we use dates as labels, the human rounding to nice readable numbers
@@ -114,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(MainActivity.this, "Series1: On Data Point clicked: "+dataPoint, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,
+                        "X: " + dataPoint.getX() + " Y: " + dataPoint.getY(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
