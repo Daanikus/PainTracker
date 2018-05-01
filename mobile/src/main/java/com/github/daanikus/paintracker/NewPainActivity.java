@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class NewPainActivity extends AppCompatActivity {
 
@@ -22,6 +23,24 @@ public class NewPainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_pain);
         mEditPainView = findViewById(R.id.edit_pain);
         seekBar = findViewById(R.id.pain_seekbar);
+        final TextView seekTextView = findViewById(R.id.new_pain_seek_text_view);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekTextView.setText("Pain Level: " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {

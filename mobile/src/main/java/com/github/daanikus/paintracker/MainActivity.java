@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setMaxY(10);
 
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(2);
-        graph.getViewport().setMaxX(20);
+        graph.getViewport().setMinX(600000);
+        graph.getViewport().setMaxX(6000000);
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScalable(true);
 
