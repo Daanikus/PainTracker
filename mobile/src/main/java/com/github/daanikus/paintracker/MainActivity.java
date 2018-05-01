@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.graph = findViewById(R.id.graph);
+        this.graph = initializeGraph();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -93,24 +93,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void initializeGraph() {
+    public GraphView initializeGraph() {
+        GraphView graph = findViewById(R.id.graph);
 
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(10);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(2);
+        graph.getViewport().setMaxX(20);
+        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScalable(true);
+
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(55);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(10);
+        return graph;
     }
 
     public void updateGraph(final List<Pain> pains) {
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
         this.graph.removeAllSeries();
-        int i = 0;
-        DateFormat sdf = new SimpleDateFormat("h:mm a");
         for (Pain p : pains) {
             Date date = new Date(p.getTimestamp());
-            if (date == null) return;
-            sdf.format(date);
             series.appendData(new DataPoint(date, p.getPainLevel()),
-                    true, 5);
+                    true, 10);
         }
 
         this.graph.addSeries(series);
+
+        DateFormat sdf = new SimpleDateFormat("h:mm a");
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(
                 new DateAsXAxisLabelFormatter(MainActivity.this, sdf));
@@ -119,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
         // as we use dates as labels, the human rounding to nice readable numbers
         // is not necessary
         graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.getViewport().scrollToEnd();
+
+
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
@@ -126,14 +141,19 @@ public class MainActivity extends AppCompatActivity {
                 for (Pain p : pains) {
                     if (p.getTimestamp() == dataPoint.getX()) {
                         Toast.makeText(MainActivity.this,
-                                p.getTimeAsFormattedString() + "\n" + p.getComment(),
-                                Toast.LENGTH_SHORT).show();
+                                p.getTimeAsFormattedString()
+                                        + "\nComment: "
+                                        + p.getComment()
+                                        + "\nPain Level: "
+                                        + p.getPainLevel(),
+                                Toast.LENGTH_LONG).show();
                         break;
                     }
                 }
 
             }
         });
+
     }
 
 }

@@ -49,7 +49,7 @@ public class Pain {
 
     public String getTimeAsFormattedString() {
         Date date = new Date(this.timestamp);
-        SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, h:mm a");
         return sdf.format(date);
     }
 }
