@@ -22,6 +22,7 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -92,20 +93,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void updateGraph(List<Pain> pains) {
+    public void initializeGraph() {
+
+    }
+
+    public void updateGraph(final List<Pain> pains) {
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
         this.graph.removeAllSeries();
+        int i = 0;
+        DateFormat sdf = new SimpleDateFormat("h:mm a");
         for (Pain p : pains) {
-            Date date = new java.util.Date(p.getTimestamp() * 100L);
-            SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-            String formattedDate = sdf.format(date);
-            series.appendData(new DataPoint(p.getTimestamp(), p.getPainLevel()),
+            Date date = new Date(p.getTimestamp());
+            if (date == null) return;
+            sdf.format(date);
+            series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 5);
         }
+
         this.graph.addSeries(series);
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(
-                new DateAsXAxisLabelFormatter(MainActivity.this));
+                new DateAsXAxisLabelFormatter(MainActivity.this, sdf));
         graph.getGridLabelRenderer().setNumHorizontalLabels(5); // only 5 because of the space
 
         // as we use dates as labels, the human rounding to nice readable numbers
@@ -114,9 +122,16 @@ public class MainActivity extends AppCompatActivity {
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(MainActivity.this,
-                        "X: " + dataPoint.getX() + " Y: " + dataPoint.getY(),
-                        Toast.LENGTH_SHORT).show();
+
+                for (Pain p : pains) {
+                    if (p.getTimestamp() == dataPoint.getX()) {
+                        Toast.makeText(MainActivity.this,
+                                p.getTimeAsFormattedString() + "\n" + p.getComment(),
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+
             }
         });
     }

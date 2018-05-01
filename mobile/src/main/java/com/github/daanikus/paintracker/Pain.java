@@ -4,6 +4,9 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.reactivex.annotations.NonNull;
 
 @Entity
@@ -43,4 +46,10 @@ public class Pain {
     public int getPainLevel() { return this.painLevel; }
 
     public void setPainLevel(int painLevel) { this.painLevel = painLevel; }
+
+    public String getTimeAsFormattedString() {
+        Date date = new Date(this.timestamp);
+        SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
+        return sdf.format(date);
+    }
 }

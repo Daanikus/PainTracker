@@ -21,4 +21,9 @@ public class PainViewModel extends AndroidViewModel {
     LiveData<List<Pain>> getAllPains() { return mAllPains; }
 
     public void insert(Pain Pain) { mRepository.insert(Pain); }
+
+    public Void getPainByTimestamp(long timestamp) {
+        // mRepository.getPainByTimestamp(timestamp); // TODO Would like to actually call db for this
+        return null;
+    }
 }

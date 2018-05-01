@@ -16,6 +16,9 @@ public interface PainDao {
     @Query("SELECT * FROM Pain WHERE id IN (:painIds)")
     LiveData<List<Pain>> loadAllByIds(int[] painIds);
 
+    @Query("SELECT * FROM Pain WHERE timestamp IN (:timestamp) LIMIT 1")
+    Pain getPainByTimestamp(long timestamp);
+
     @Insert
     void insert(Pain pain);
 
