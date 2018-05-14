@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private PainViewModel mPainViewModel;
     public static final int NEW_PAIN_ACTIVITY_REQUEST_CODE = 1;
     private GraphView graph;
+    private TextView cardTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.graph = initializeGraph();
-
+        cardTextView = findViewById(R.id.card_text_view);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +80,13 @@ public class MainActivity extends AppCompatActivity {
             try {
                 pain = new Pain(b.getString("COMMENT"),
                         b.getInt("PAIN_LEVEL"),
-                        b.getLong("TIMESTAMP"));
+                        b.getLong("TIMESTAMP"),
+                        b.getInt("LOCATION_X"),
+                        b.getInt("LOCATION_Y"));
                 mPainViewModel.insert(pain);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                Log.e("MainActivity.onActivityResult", "Pain object is null");
+                Log.e("MainActivity", "Pain object is null");
             }
 
         } else {
@@ -140,13 +144,15 @@ public class MainActivity extends AppCompatActivity {
 
                 for (Pain p : pains) {
                     if (p.getTimestamp() == dataPoint.getX()) {
-                        Toast.makeText(MainActivity.this,
-                                p.getTimeAsFormattedString()
+                        cardTextView.setText(p.getTimeAsFormattedString()
                                         + "\nComment: "
                                         + p.getComment()
                                         + "\nPain Level: "
-                                        + p.getPainLevel(),
-                                Toast.LENGTH_LONG).show();
+                                        + p.getPainLevel()
+                                        + "\nX: "
+                                        + p.getLocationX()
+                                        + "\nY: "
+                                        + p.getLocationY());
                         break;
                     }
                 }

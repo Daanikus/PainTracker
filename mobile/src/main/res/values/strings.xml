@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">PainTracker</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">Pain Tracker</string>
+    <string name="title_activity_main">Pain Tracker</string>
     <string name="hint_word">Comment...</string>
     <string name="button_save">Save</string>
-    <string name="empty_not_saved">Entry not saved because it is empty.</string>
+    <string name="empty_not_saved">No pain level set. Entry not saved.</string>
+    <string name="card_initial_text">Tap a data point to display info or tap the + to add an entry</string>
 </resources>

@@ -16,11 +16,14 @@ public class Pain {
     private String comment;
     private long timestamp;
     private int painLevel;
+    private int locationX, locationY; // TODO this is ugly. Write a converter.
 
-    public Pain(String comment, int painLevel, long timestamp) {
+    public Pain(String comment, int painLevel, long timestamp, int locationX, int locationY) {
         this.comment = comment;
         this.painLevel = painLevel;
         this.timestamp = timestamp;
+        this.locationX = locationX;
+        this.locationY = locationY;
     }
 
     public int getId() { return this.id; }
@@ -47,9 +50,15 @@ public class Pain {
 
     public void setPainLevel(int painLevel) { this.painLevel = painLevel; }
 
+    public int getLocationX() { return this.locationX; }
+
+    public int getLocationY() { return this.locationY; }
+
     public String getTimeAsFormattedString() {
         Date date = new Date(this.timestamp);
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, h:mm a");
         return sdf.format(date);
     }
+
+
 }

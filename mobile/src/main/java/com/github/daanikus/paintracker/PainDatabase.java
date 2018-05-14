@@ -5,11 +5,11 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {Pain.class}, version = 2, exportSchema = false)
+@Database(entities = {Pain.class}, version = 3, exportSchema = false)
 public abstract class PainDatabase extends RoomDatabase {
 
     public abstract PainDao dao();
-
+    private static final String DATABASE_NAME = "pain_db";
     private static PainDatabase INSTANCE;
 
     static PainDatabase getDatabase(final Context context) {
@@ -17,8 +17,8 @@ public abstract class PainDatabase extends RoomDatabase {
             synchronized (PainDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            PainDatabase.class, "word_database")
-                            .fallbackToDestructiveMigration() // TODO Sort this out
+                            PainDatabase.class, DATABASE_NAME)
+                            //.fallbackToDestructiveMigration() // TODO Sort this out
                             .build();
 
                 }
