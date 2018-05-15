@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "622845479780",
+    "firebase_url": "https://pain-tracker-c406b.firebaseio.com",
+    "project_id": "pain-tracker-c406b",
+    "storage_bucket": "pain-tracker-c406b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622845479780:android:0c42dbe1841b730b",
+        "android_client_info": {
+          "package_name": "com.github.daanikus.paintracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "622845479780-iqnog6bumeoclajkvv60p3jhnlu2c9h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcHAlririiS0_UWcgGnGDhaJ-4P_6rljE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
