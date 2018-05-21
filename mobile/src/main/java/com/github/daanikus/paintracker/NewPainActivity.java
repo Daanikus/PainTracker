@@ -55,17 +55,22 @@ public class NewPainActivity extends AppCompatActivity {
 
         ImageView image = findViewById(R.id.human_image_view);
         image.setOnTouchListener(new View.OnTouchListener() { // TODO work out the performClick override
+            long lastClicked;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                long debounceTime = 1000;
+                lastClicked = System.currentTimeMillis();
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setColor(Color.BLACK);
-                float x = event.getX();
-                float y = event.getY();
-                int[] imageLocation = new int[2];
-                v.getLocationOnScreen(imageLocation);
-                painLocation[0] = (int) x - imageLocation[0];
-                painLocation[1] = (int) y - imageLocation[1];
-                Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
+                if (System.currentTimeMillis() - lastClicked > debounceTime) {
+                    float x = event.getX();
+                    float y = event.getY();
+                    int[] imageLocation = new int[2];
+                    v.getLocationOnScreen(imageLocation);
+                    painLocation[0] = (int) x - imageLocation[0];
+                    painLocation[1] = (int) y - imageLocation[1];
+                    Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });
