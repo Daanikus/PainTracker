@@ -30,7 +30,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private PainViewModel mPainViewModel;
+    private static PainViewModel mPainViewModel;
     public static final int NEW_PAIN_ACTIVITY_REQUEST_CODE = 1;
     private GraphView graph;
     private TextView cardTextView;
