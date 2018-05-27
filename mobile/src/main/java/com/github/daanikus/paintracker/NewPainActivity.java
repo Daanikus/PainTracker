@@ -2,14 +2,10 @@ package com.github.daanikus.paintracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +18,6 @@ import android.widget.Toast;
 public class NewPainActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = "com.example.android.painlistsql.REPLY";
-
     private EditText mEditPainView;
     private SeekBar seekBar;
     private int[] painLocation = new int[2];
@@ -44,12 +39,12 @@ public class NewPainActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                // Unused, but must override
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                // Unused, but must override
             }
         });
 

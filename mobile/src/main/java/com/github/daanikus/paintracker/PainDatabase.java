@@ -5,6 +5,11 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+/**
+ * The database that holds Pain entries. The majority of this class is boilerplate
+ * code retrieved from Google CodeLabs: Android Room with a View (Q1 2018)
+ */
+
 @Database(entities = {Pain.class}, version = 3, exportSchema = false)
 public abstract class PainDatabase extends RoomDatabase {
 
@@ -18,7 +23,6 @@ public abstract class PainDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             PainDatabase.class, DATABASE_NAME)
-                            //.fallbackToDestructiveMigration() // TODO Sort this out
                             .build();
 
                 }
