@@ -35,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private GraphView graph;
     private TextView cardTextView;
 
+    /**
+     * Initializes the users home screen with a graph and button to add a new pain entry. Updates
+     * the graph with the users history of previous pain entries.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -115,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
         return graph;
     }
 
+    /**
+     * Updates the graph with all history (pain points) and displays the information (time, comment,
+     * level, x and y coordinates) in a card below the graph on the click of a data point.
+     *
+     * @param pains
+     */
     public void updateGraph(final List<Pain> pains) {
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
         this.graph.removeAllSeries();
