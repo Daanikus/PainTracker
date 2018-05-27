@@ -28,6 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The user can view and interact with their pain history by viewing the graph, and tapping on a
+ * particular data point to expand its information. The user can also add a new pain entry by
+ * tapping the floating action button.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private static PainViewModel mPainViewModel;
@@ -58,21 +64,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       // final PainListAdapter adapter = new PainListAdapter(this);
-
         mPainViewModel = ViewModelProviders.of(this).get(PainViewModel.class);
         mPainViewModel.getAllPains().observe(this, new Observer<List<Pain>>() {
             @Override
             public void onChanged(@Nullable final List<Pain> pains) {
-                // Reload graph
-                // Update the cached copy of the pains in the adapter.
                 updateGraph(pains);
-                //adapter.setPains(pains);
             }
         });
     }
 
 
+    /**
+     * Populates the mPainViewModel with the pain history that is stored in the Pain class.***
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -99,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Creates a graph with various attributes that define how data is displayed and how the user
+     * can interact with it. ***Explain magic numbers??***
+     *
+     * @return graph
+     */
     public GraphView initializeGraph() {
         GraphView graph = findViewById(R.id.graph);
 
