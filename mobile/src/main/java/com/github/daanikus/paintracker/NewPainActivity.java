@@ -15,13 +15,24 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Here the user can record a new pain entry: enter pain level, add a comment, and the location of
+ * the pain on their body. Time of entry is automatically recorded once the entry is saved.
+ */
+
 public class NewPainActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = "com.example.android.painlistsql.REPLY";
     private EditText mEditPainView;
     private SeekBar seekBar;
-    private int[] painLocation = new int[2];
+    private int[] painLocation = new int[2]; //as X and Y coordinate
 
+    /**
+     * Sets the pain slider, comment field, and pain location tool, as well as defines their
+     * functionality, on the activity.
+     *
+     * @param savedInstanceState
+     */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,10 @@ public class NewPainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Tracks the location of a user's pain. Logged as an X and Y coordinate by them tapping the
+         * image. The most recent tap, before the save button is pushed, is recorded.
+         */
         ImageView image = findViewById(R.id.human_image_view);
         image.setOnTouchListener(new View.OnTouchListener() { // TODO work out the performClick override
             long lastClicked = System.currentTimeMillis();
@@ -70,6 +85,9 @@ public class NewPainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Saves a new pain entry to the database.
+         */
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
