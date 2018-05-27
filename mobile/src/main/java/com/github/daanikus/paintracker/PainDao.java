@@ -8,6 +8,12 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
+/**
+ * Database Access Object (DAO) class. This object allows abstract access to the DB.
+ * The majority of this class is boilerplate code retrieved from Google CodeLabs: Android Room
+ * with a View (Q1 2018)
+ */
+
 @Dao
 public interface PainDao {
     @Query("SELECT * FROM Pain")

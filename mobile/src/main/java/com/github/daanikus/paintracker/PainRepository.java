@@ -31,6 +31,10 @@ public class PainRepository {
         new insertAsyncTask(mDao).execute(pain);
     }
 
+    /**
+     * This class extends AsyncTask for an asynchronous call to add
+     * the given Pain entry to the DB
+     */
     private static class insertAsyncTask extends AsyncTask<Pain, Void, Void> {
 
         private PainDao mAsyncTaskDao;

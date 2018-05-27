@@ -1,13 +1,13 @@
 package com.github.daanikus.paintracker;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import io.reactivex.annotations.NonNull;
+/**
+ * Pain object class. This is the object that gets stored in the room DB
+ */
 
 @Entity
 public class Pain {
@@ -16,7 +16,7 @@ public class Pain {
     private String comment;
     private long timestamp;
     private int painLevel;
-    private int locationX, locationY; // TODO this is ugly. Write a converter.
+    private int locationX, locationY;
 
     public Pain(String comment, int painLevel, long timestamp, int locationX, int locationY) {
         this.comment = comment;
