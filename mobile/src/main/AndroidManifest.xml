@@ -35,8 +35,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewPainActivity" />
-        <activity android:name=".CardView" android:exported="true">
-        </activity>
     </application>
 
 </manifest>
