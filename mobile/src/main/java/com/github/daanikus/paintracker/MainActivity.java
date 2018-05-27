@@ -29,8 +29,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * The user can view and interact with their pain history by viewing the graph, and tapping on a
- * particular data point to expand its information. The user can also add a new pain entry by
+ * Here the user can view and interact with their pain history by viewing the graph, and tapping on
+ * a particular data point to expand its information. The user can also add a new pain entry by
  * tapping the floating action button.
  */
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Populates the mPainViewModel with the pain history that is stored in the Pain class.***
+     * Stores a pain entry in the database.
      *
      * @param requestCode
      * @param resultCode
@@ -109,25 +109,34 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Creates a graph with various attributes that define how data is displayed and how the user
-     * can interact with it. ***Explain magic numbers??***
+     * can interact with it.
      *
      * @return graph
      */
     public GraphView initializeGraph() {
+        int PAIN_SCALE_LOWER = 0;
+        int PAIN_SCALE_UPPER = 10;
+        int X_MIN = 600000;
+        int X_MAX = 6000000;
+        int X_AXIS_LABEL_ANGLE = 55;
+
         GraphView graph = findViewById(R.id.graph);
 
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(10);
+        graph.getViewport().setMinY(PAIN_SCALE_LOWER);
+        graph.getViewport().setMaxY(PAIN_SCALE_UPPER);
 
+        //Arbitrary x axis scale
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(600000);
-        graph.getViewport().setMaxX(6000000);
+        graph.getViewport().setMinX(X_MIN);
+        graph.getViewport().setMaxX(X_MAX);
+
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScalable(true);
 
-        graph.getGridLabelRenderer().setHorizontalLabelsAngle(55);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(10);
+
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(X_AXIS_LABEL_ANGLE);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(PAIN_SCALE_UPPER);
         return graph;
     }
 
@@ -163,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-
+                // Set card view
                 for (Pain p : pains) {
                     if (p.getTimestamp() == dataPoint.getX()) {
                         cardTextView.setText(p.getTimeAsFormattedString()
