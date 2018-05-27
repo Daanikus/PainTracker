@@ -58,12 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // TODO move RecyclerView stuff to new class file
-        //RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final PainListAdapter adapter = new PainListAdapter(this);
-        //recyclerView.setAdapter(adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       // final PainListAdapter adapter = new PainListAdapter(this);
 
         mPainViewModel = ViewModelProviders.of(this).get(PainViewModel.class);
         mPainViewModel.getAllPains().observe(this, new Observer<List<Pain>>() {
@@ -72,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 // Reload graph
                 // Update the cached copy of the pains in the adapter.
                 updateGraph(pains);
-                adapter.setPains(pains);
+                //adapter.setPains(pains);
             }
         });
     }

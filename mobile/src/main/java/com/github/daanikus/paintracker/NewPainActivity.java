@@ -55,14 +55,13 @@ public class NewPainActivity extends AppCompatActivity {
 
         ImageView image = findViewById(R.id.human_image_view);
         image.setOnTouchListener(new View.OnTouchListener() { // TODO work out the performClick override
-            long lastClicked;
+            long lastClicked = System.currentTimeMillis();
+            final long DEBOUNCE_TIME = 1000;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                long debounceTime = 1000;
-                lastClicked = System.currentTimeMillis();
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setColor(Color.BLACK);
-                if (System.currentTimeMillis() - lastClicked > debounceTime) {
+                if (System.currentTimeMillis() - lastClicked > DEBOUNCE_TIME) {
                     float x = event.getX();
                     float y = event.getY();
                     int[] imageLocation = new int[2];
@@ -71,6 +70,7 @@ public class NewPainActivity extends AppCompatActivity {
                     painLocation[1] = (int) y - imageLocation[1];
                     Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
                 }
+                lastClicked = System.currentTimeMillis();
                 return true;
             }
         });
