@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -38,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static PainViewModel mPainViewModel;
     public static final int NEW_PAIN_ACTIVITY_REQUEST_CODE = 1;
+    private static final String TAG = "MainActivity";
     private GraphView graph;
     private TextView cardTextView;
+    private TextView graphDayTextView;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -50,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.graph = initializeGraph();
         cardTextView = findViewById(R.id.card_text_view);
+        graphDayTextView = findViewById(R.id.graph_day_text_view);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 mPainViewModel.insert(pain);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                Log.e("MainActivity", "Pain object is null");
+                Log.e(TAG, "Pain object is null");
             }
 
         } else {
@@ -167,6 +168,15 @@ public class MainActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setHumanRounding(false);
         graph.getViewport().scrollToEnd();
 
+        // Get the most recent entry to set the graph date
+        if (!pains.isEmpty()) {
+            Pain lastPainForDate = pains.get(pains.size() - 1);
+            if (lastPainForDate != null) {
+                String date = lastPainForDate.getDayAsFormattedString();
+                graphDayTextView.setText(date);
+                Log.d(TAG,"Day set to " + date);
+            }
+        }
 
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
@@ -181,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                                         + p.getPainLevel()
                                         + "\nX: "
                                         + p.getLocationX()
-                                        + "\nY: "
+                                        + "  Y: "
                                         + p.getLocationY());
                         break;
                     }
