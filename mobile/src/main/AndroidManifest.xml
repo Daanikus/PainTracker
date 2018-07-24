@@ -23,6 +23,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -33,10 +34,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewPainActivity"></activity>
-
-
-
+        <activity android:name=".NewPainActivity" />
+        <activity android:name=".NewsFeed" android:exported="true"></activity>
     </application>
 
 </manifest>
