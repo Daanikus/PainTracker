@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewPainActivity"/>
-        <activity android:name=".NewsFeed" android:exported="true"/>
+        <activity android:name=".NewsFeedActivity" android:exported="true"/>
     </application>
 
 </manifest>
