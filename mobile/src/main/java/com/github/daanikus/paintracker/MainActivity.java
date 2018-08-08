@@ -1,15 +1,25 @@
 package com.github.daanikus.paintracker;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +31,14 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private GraphView graph;
     private TextView cardTextView;
     private TextView graphDayTextView;
+    private ArrayList<Pain> staticData;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -57,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         cardTextView = findViewById(R.id.card_text_view);
         graphDayTextView = findViewById(R.id.graph_day_text_view);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final List<Pain> staticData;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,11 +82,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, NEW_PAIN_ACTIVITY_REQUEST_CODE);
             }
         });
+        Button pdfButton = findViewById(R.id.button_pdf);
+        pdfButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createPdf();
+            }
+        });
 
         mPainViewModel = ViewModelProviders.of(this).get(PainViewModel.class);
         mPainViewModel.getAllPains().observe(this, new Observer<List<Pain>>() {
             @Override
             public void onChanged(@Nullable final List<Pain> pains) {
+
                 updateGraph(pains);
             }
         });
@@ -147,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
      * @param pains
      */
     public void updateGraph(final List<Pain> pains) {
+        this.staticData = new ArrayList<Pain>(pains);
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
         this.graph.removeAllSeries();
         for (Pain p : pains) {
@@ -201,5 +228,56 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public void createPdf() {
+        // create a new document
+        PdfDocument document = new PdfDocument();
+
+        // crate a page description
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+
+        // start a page
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        // draw something on the page
+        //View content = this.getContentView();
+        //content.draw(page.getCanvas());
+        Canvas canvas = page.getCanvas();
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        //ByteArrayOutputStream os = new ByteArrayOutputStream();
+        Bitmap graphImage = this.graph.takeSnapshot();
+        canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),  new Rect(0, 0, 100, 100), null);
+        for (Pain p : staticData) {
+            String output = (p.getTimeAsFormattedString()
+                    + "\nComment: "
+                    + p.getComment()
+                    + "\nPain Level: "
+                    + p.getPainLevel()
+                    + "\nX: "
+                    + p.getLocationX()
+                    + "  Y: "
+                    + p.getLocationY());
+            canvas.drawText(output, 100, 100, paint);
+        }
+        document.finishPage(page);
+
+
+
+        // write the document content
+        String targetPdf = Environment.getExternalStorageDirectory().getPath();
+        File filePath = new File(targetPdf + "/test.pdf");
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+            Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something wrong: " + e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
+        // close the document
+        document.close();
+    }
+
 
 }
