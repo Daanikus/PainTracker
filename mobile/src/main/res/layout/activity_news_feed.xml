@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightGrey"
+    android:background="@color/fill"
     tools:context=".NewsFeedActivity">
 
     <!-- A RecyclerView with some commonly used attributes -->

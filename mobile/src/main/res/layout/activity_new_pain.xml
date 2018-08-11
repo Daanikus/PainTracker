@@ -4,27 +4,32 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp">
+    android:padding="30dp"
+    android:background="@color/fill"><!--background colour-->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24dp"
         android:text="Pain Level:"
-        android:id="@+id/new_pain_seek_text_view"/>
+        android:id="@+id/new_pain_seek_text_view"
+        android:textColor="@color/black"/><!--background colour-->
 
     <SeekBar
         android:id="@+id/pain_seekbar"
         android:layout_width="match_parent"
         android:scrollbarSize="@dimen/small_padding"
         android:layout_height="wrap_content"
-        android:max="10" />
+        android:max="10"
+        android:progressBackgroundTint="@color/black"
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24dp"
-        android:text="Comment:"/>
+        android:text="Comment:"
+        android:textColor="@color/black"/>
 
     <EditText
         android:id="@+id/edit_pain"
@@ -36,7 +41,8 @@
         android:padding="@dimen/small_padding"
         android:layout_marginBottom="@dimen/big_padding"
         android:layout_marginTop="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColorHint="@color/black"/>
 
     <ImageView
         android:layout_width="match_parent"

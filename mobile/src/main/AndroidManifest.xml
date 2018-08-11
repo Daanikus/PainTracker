@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewPainActivity"/>
+        <activity android:name=".NewPainActivity" android:exported="true"/>
         <activity android:name=".NewsFeedActivity" android:exported="true"/>
     </application>
 

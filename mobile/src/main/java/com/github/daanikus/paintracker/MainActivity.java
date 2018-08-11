@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         int X_AXIS_LABEL_ANGLE = 55;
 
         GraphView graph = findViewById(R.id.graph);
+        graph.getViewport().setBackgroundColor(getResources().getColor(android.R.color.white));
 
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(PAIN_SCALE_LOWER);
@@ -134,8 +136,13 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setScalable(true);
 
 
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer().setGridColor(getResources().getColor(android.R.color.black));
+
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(X_AXIS_LABEL_ANGLE);
         graph.getGridLabelRenderer().setNumHorizontalLabels(PAIN_SCALE_UPPER);
+
         return graph;
     }
 
@@ -147,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void updateGraph(final List<Pain> pains) {
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
+
         this.graph.removeAllSeries();
         for (Pain p : pains) {
             Date date = new Date(p.getTimestamp());
@@ -154,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     true, 10);
         }
 
+        series.setColor(getResources().getColor(R.color.colorAccent));
         this.graph.addSeries(series);
 
         DateFormat sdf = new SimpleDateFormat("h:mm a");
