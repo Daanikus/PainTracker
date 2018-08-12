@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/fill">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,13 +22,6 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-    <Button
-        android:id="@+id/button_pdf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="PDF"
-        android:textColor="@color/buttonLabel" />
 
     <TextView
         android:id="@+id/graph_day_text_view"
@@ -38,22 +32,29 @@
         android:gravity="right"/>
 
     <com.jjoe64.graphview.GraphView
-        android:paddingTop="@dimen/big_padding"
+        android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="279dp"
         android:foregroundGravity="center"
-        android:id="@+id/graph" />
+        android:paddingTop="@dimen/big_padding" />
 
     <TextView
         android:id="@+id/card_text_view"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/rounded_corner"
         android:padding="20dp"
         android:text="@string/card_initial_text"
+        android:textColor="@color/black"
         android:textSize="20dp" />
 
+    <Button
+        android:id="@+id/button_pdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="PDF"
+        android:textColor="@color/buttonLabel" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
