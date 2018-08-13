@@ -52,6 +52,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.app.Notification.VISIBILITY_PUBLIC;
+
 /**
  * Here the user can view and interact with their pain history by viewing the graph, and tapping on
  * a particular data point to expand its information. The user can also add a new pain entry by
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Pain> staticData;
     private NotificationManagerCompat notificationManager;
     //private String REMINDER_CHANNEL = "Reminder channel";
+    private static int count = 0;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -249,7 +252,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        count++;
+        sendOnChannel1(count);
     }
 
     public void createPdf() {
@@ -303,15 +307,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //notification
-    public void sendOnChannel1(View v){
+    public void sendOnChannel1(int count){
         Intent activityIntent = new Intent(this, NewPainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this,
                 0, activityIntent, 0);
 
-        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-        broadcastIntent.putExtra("toastMessage", "Hello world!");
+        //broadcast toast notification
+        /*Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage", "Hello world!"+" "+count);
         PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0,
-                broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
+
+        Intent
 
 
         Notification notification = new NotificationCompat.Builder(this, PainTracker.CHANNEL_1_ID)
@@ -319,11 +326,12 @@ public class MainActivity extends AppCompatActivity {
                 .setContentTitle("Title")
                 .setContentText("Content")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setColor(R.color.colorPrimary)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)
+                .setVisibility(VISIBILITY_PUBLIC)
                 .addAction(R.drawable.notification_icon, "Toast", actionIntent)
+                .setColor(Color.BLUE)
                 .build();
 
         notificationManager.notify(1, notification);
