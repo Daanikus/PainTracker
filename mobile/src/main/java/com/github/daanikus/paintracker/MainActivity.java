@@ -3,6 +3,7 @@ package com.github.daanikus.paintracker;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -303,11 +304,26 @@ public class MainActivity extends AppCompatActivity {
 
     //notification
     public void sendOnChannel1(View v){
+        Intent activityIntent = new Intent(this, NewPainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,
+                0, activityIntent, 0);
+
+        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage", "Hello world!");
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0,
+                broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
         Notification notification = new NotificationCompat.Builder(this, PainTracker.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle("Title")
                 .setContentText("Content")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setColor(R.color.colorPrimary)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .addAction(R.drawable.notification_icon, "Toast", actionIntent)
                 .build();
 
         notificationManager.notify(1, notification);

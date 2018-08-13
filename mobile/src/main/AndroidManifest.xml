@@ -38,6 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewPainActivity" android:exported="true"/>
+        <receiver android:name=".NotificationReceiver"/>
     </application>
 
 </manifest>
