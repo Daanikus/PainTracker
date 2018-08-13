@@ -54,9 +54,15 @@ public class Pain {
 
     public int getLocationY() { return this.locationY; }
 
+    public String getDayAsFormattedString() {
+        Date date = new Date(this.timestamp);
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM ");
+        return sdf.format(date);
+    }
+
     public String getTimeAsFormattedString() {
         Date date = new Date(this.timestamp);
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, h:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, ''yy h:mm a");
         return sdf.format(date);
     }
 

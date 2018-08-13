@@ -29,6 +29,6 @@ public class PainViewModel extends AndroidViewModel {
 
     LiveData<List<Pain>> getAllPains() { return mAllPains; }
 
-    public void insert(Pain Pain) { mRepository.insert(Pain); }
+    public void insert(Pain pain) { mRepository.insert(pain); }
 
 }
