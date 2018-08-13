@@ -1,8 +1,11 @@
 package com.github.daanikus.paintracker;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,10 +14,12 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView cardTextView;
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
+    //private String REMINDER_CHANNEL = "Reminder channel";
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates

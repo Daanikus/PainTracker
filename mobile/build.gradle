@@ -75,6 +75,9 @@ dependencies {
 
     //CardView
     implementation 'com.android.support:cardview-v7:27.1.1'
+
+    //Notifications
+    implementation "com.android.support:support-compat:27.1.1"
 }
 
 apply plugin: 'com.google.gms.google-services'

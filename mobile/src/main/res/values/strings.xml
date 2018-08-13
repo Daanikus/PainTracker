@@ -5,4 +5,8 @@
     <string name="button_save">Save</string>
     <string name="empty_not_saved">No pain level set. Entry not saved.</string>
     <string name="card_initial_text">Tap a data point to display info or tap the + to add an entry</string>
+    <string name="textTitle">Test</string>
+    <string name="textContent">Test</string>
+    <string name="channelName">Reminders</string>
+    <string name="channelDescription">Helps you remember to log how you are feeling.</string>
 </resources>
