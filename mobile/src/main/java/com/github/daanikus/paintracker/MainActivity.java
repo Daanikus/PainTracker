@@ -1,5 +1,6 @@
 package com.github.daanikus.paintracker;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.arch.lifecycle.LiveData;
@@ -20,12 +21,14 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView cardTextView;
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
+    private NotificationManagerCompat notificationManager;
     //private String REMINDER_CHANNEL = "Reminder channel";
 
     /**
@@ -105,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                 updateGraph(pains);
             }
         });
+
+        notificationManager = NotificationManagerCompat.from(this);
     }
 
 
@@ -295,5 +301,16 @@ public class MainActivity extends AppCompatActivity {
         document.close();
     }
 
+    //notification
+    public void sendOnChannel1(View v){
+        Notification notification = new NotificationCompat.Builder(this, PainTracker.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("Title")
+                .setContentText("Content")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+
+        notificationManager.notify(1, notification);
+    }
 
 }
