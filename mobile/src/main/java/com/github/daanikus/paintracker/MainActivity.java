@@ -11,9 +11,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         });
         Button pdfButton = findViewById(R.id.button_pdf);
         pdfButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
                 createPdf();
@@ -238,7 +241,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+    // Generate PDF from data on graph
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createPdf() {
         // create a new document
         PdfDocument document = new PdfDocument();
@@ -249,26 +253,24 @@ public class MainActivity extends AppCompatActivity {
         // start a page
         PdfDocument.Page page = document.startPage(pageInfo);
 
-        // draw something on the page
-        //View content = this.getContentView();
-        //content.draw(page.getCanvas());
         Canvas canvas = page.getCanvas();
         Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        //ByteArrayOutputStream os = new ByteArrayOutputStream();
+        paint.setColor(Color.BLACK);
         Bitmap graphImage = this.graph.takeSnapshot();
-        canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),  new Rect(0, 0, 100, 100), null);
+        canvas.drawBitmap(graphImage, null,  new Rect(0, 0, 500, 350), null);
+        int i = 400;
         for (Pain p : staticData) {
             String output = (p.getTimeAsFormattedString()
-                    + "\nComment: "
-                    + p.getComment()
                     + "\nPain Level: "
                     + p.getPainLevel()
                     + "\nX: "
                     + p.getLocationX()
                     + "  Y: "
-                    + p.getLocationY());
-            canvas.drawText(output, 100, 100, paint);
+                    + p.getLocationY())
+                    + "\nComment: "
+                    + p.getComment();
+            canvas.drawText(output, 50, i, paint);
+            i = i + 15;
         }
         document.finishPage(page);
 
