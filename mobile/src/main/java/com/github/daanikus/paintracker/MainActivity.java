@@ -1,5 +1,6 @@
 package com.github.daanikus.paintracker;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -49,10 +50,12 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static android.app.Notification.VISIBILITY_PUBLIC;
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 /**
  * Here the user can view and interact with their pain history by viewing the graph, and tapping on
@@ -70,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
     private NotificationManagerCompat notificationManager;
-    //private String REMINDER_CHANNEL = "Reminder channel";
     private static int count = 0;
 
     /**
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         cardTextView = findViewById(R.id.card_text_view);
         graphDayTextView = findViewById(R.id.graph_day_text_view);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        final List<Pain> staticData;
+        final List<Pain> staticData = null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         notificationManager = NotificationManagerCompat.from(this);
+        count++;
+
+        if(staticData.size() == 0) {
+            sendOnChannel1(count);
+        }
+
+        //sendOnChannel2();
     }
 
 
@@ -206,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                     true, 10);
         }
 
+
         series.setColor(getResources().getColor(R.color.colorAccent));
         this.graph.addSeries(series);
 
@@ -252,8 +262,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        count++;
-        sendOnChannel1(count);
     }
 
     public void createPdf() {
@@ -313,15 +321,49 @@ public class MainActivity extends AppCompatActivity {
                 0, activityIntent, 0);
 
         //broadcast toast notification
-        /*Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-        broadcastIntent.putExtra("toastMessage", "Hello world!"+" "+count);
+        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage", "Welcome!");
         PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0,
-                broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
-
-        Intent
+                broadcastIntent, FLAG_UPDATE_CURRENT);
 
 
         Notification notification = new NotificationCompat.Builder(this, PainTracker.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("PainTracker")
+                .setContentText("Welcome!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .setVisibility(VISIBILITY_PUBLIC)
+                .setColor(Color.BLUE)
+                .build();//change colour.
+
+        notificationManager.notify(1, notification);
+    }
+
+    /*public void sendOnChannel2(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        calendar.set(calendar.MINUTE, 10);
+        calendar.set(calendar.SECOND, 0);
+
+        Intent activityIntent = new Intent(this, NewPainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,
+                0, activityIntent, 0);
+
+        //broadcast toast notification
+        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage", "Hello world!"+" "+count);
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0,
+                broadcastIntent, FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, contentIntent);
+
+        Notification notification = new NotificationCompat.Builder(this, PainTracker.CHANNEL_2_ID)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle("Title")
                 .setContentText("Content")
@@ -330,11 +372,10 @@ public class MainActivity extends AppCompatActivity {
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)
                 .setVisibility(VISIBILITY_PUBLIC)
-                .addAction(R.drawable.notification_icon, "Toast", actionIntent)
-                .setColor(Color.BLUE)
-                .build();
+                .addAction(R.drawable.notification_icon, "WOW", actionIntent)
+                .setColor(Color.RED)
+                .build();//change colour.
 
-        notificationManager.notify(1, notification);
-    }
+    }*/
 
 }
