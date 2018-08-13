@@ -39,9 +39,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -275,13 +277,13 @@ public class MainActivity extends AppCompatActivity {
         document.finishPage(page);
 
 
-
+        Date currentTime = Calendar.getInstance().getTime();
         // write the document content
         String targetPdf = Environment.getExternalStorageDirectory().getPath();
-        File filePath = new File(targetPdf + "/test.pdf");
+        File filePath = new File(targetPdf + "/" + currentTime.toString() + ".pdf");
         try {
             document.writeTo(new FileOutputStream(filePath));
-            Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Done. File in " + filePath.getPath(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Something wrong: " + e.toString(),
