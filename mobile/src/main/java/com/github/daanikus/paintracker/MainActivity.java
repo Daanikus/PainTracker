@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
             if (lastPainForDate != null) {
                 String date = lastPainForDate.getDayAsFormattedString();
                 graphDayTextView.setText(date);
+                graphDayTextView.setTextColor(R.color.black);
                 Log.d(TAG,"Day set to " + date);
             }
         }
