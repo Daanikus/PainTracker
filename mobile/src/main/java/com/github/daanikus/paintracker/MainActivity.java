@@ -119,8 +119,10 @@ public class MainActivity extends AppCompatActivity {
         notificationManager = NotificationManagerCompat.from(this);
         count++;
 
-        if(staticData.size() == 0) {
-            sendOnChannel1(count);
+        if(staticData != null) {
+            if(staticData.size() == 0) {
+                sendOnChannel1(count);
+            }
         }
 
         //sendOnChannel2();
