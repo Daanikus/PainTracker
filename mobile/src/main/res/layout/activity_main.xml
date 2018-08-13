@@ -26,9 +26,10 @@
         android:id="@+id/button_pdf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Export to PDF"
-        android:textColor="@color/buttonLabel" />
+        android:background="@color/colorPrimaryLight"
+        android:text="Export PDF"
+        android:textColor="@color/black"
+        android:padding="5dp"/>
 
     <TextView
         android:id="@+id/graph_day_text_view"
