@@ -2,10 +2,7 @@ package com.github.daanikus.paintracker;
 
 import android.app.AlarmManager;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -13,24 +10,20 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +35,9 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,7 +46,6 @@ import java.util.Date;
 import java.util.List;
 
 import static android.app.Notification.VISIBILITY_PUBLIC;
-import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 /**
  * Here the user can view and interact with their pain history by viewing the graph, and tapping on
@@ -119,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         notificationManager = NotificationManagerCompat.from(this);
         count++;
 
+        //sendOnChannel1(1);
+
         if(staticData != null) {
             if(staticData.size() == 0) {
                 sendOnChannel1(count);
@@ -126,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //sendOnChannel2();
+        startAlarm();
     }
 
 
@@ -323,16 +316,16 @@ public class MainActivity extends AppCompatActivity {
                 0, activityIntent, 0);
 
         //broadcast toast notification
-        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        /*Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
         broadcastIntent.putExtra("toastMessage", "Welcome!");
         PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0,
-                broadcastIntent, FLAG_UPDATE_CURRENT);
+                broadcastIntent, FLAG_UPDATE_CURRENT);*/
 
 
-        Notification notification = new NotificationCompat.Builder(this, PainTracker.CHANNEL_1_ID)
+        Notification notification = new NotificationCompat.Builder(this, MyNotificationChannel.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("PainTracker")
-                .setContentText("Welcome!")
+                .setContentTitle("Notification")
+                .setContentText("Hi!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
@@ -344,40 +337,22 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(1, notification);
     }
 
-    /*public void sendOnChannel2(){
+    //Reminder
+    public void startAlarm(){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 13);
+        c.set(Calendar.MINUTE, 44);
+        c.set(Calendar.SECOND, 0);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
-        calendar.set(calendar.MINUTE, 10);
-        calendar.set(calendar.SECOND, 0);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
-        Intent activityIntent = new Intent(this, NewPainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this,
-                0, activityIntent, 0);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
-        //broadcast toast notification
-        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-        broadcastIntent.putExtra("toastMessage", "Hello world!"+" "+count);
-        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0,
-                broadcastIntent, FLAG_UPDATE_CURRENT);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, contentIntent);
+        Log.i("Time", ""+c.toString());
+    }
 
-        Notification notification = new NotificationCompat.Builder(this, PainTracker.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Title")
-                .setContentText("Content")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(contentIntent)
-                .setAutoCancel(true)
-                .setOnlyAlertOnce(true)
-                .setVisibility(VISIBILITY_PUBLIC)
-                .addAction(R.drawable.notification_icon, "WOW", actionIntent)
-                .setColor(Color.RED)
-                .build();//change colour.
-
-    }*/
 
 }
