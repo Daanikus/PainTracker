@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView cardTextView;
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
-    private NotificationManagerCompat notificationManager;
     private static int count = 0;
 
     /**
@@ -106,18 +105,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        notificationManager = NotificationManagerCompat.from(this);
-        count++;
-
-        //sendOnChannel1(1);
-
-        if(staticData != null) {
-            if(staticData.size() == 0) {
-                sendOnChannel1(count);
-            }
-        }
-
-        //sendOnChannel2();
         startAlarm();
     }
 
@@ -309,39 +296,11 @@ public class MainActivity extends AppCompatActivity {
         document.close();
     }
 
-    //notification
-    public void sendOnChannel1(int count){
-        Intent activityIntent = new Intent(this, NewPainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this,
-                0, activityIntent, 0);
-
-        //broadcast toast notification
-        /*Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-        broadcastIntent.putExtra("toastMessage", "Welcome!");
-        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0,
-                broadcastIntent, FLAG_UPDATE_CURRENT);*/
-
-
-        Notification notification = new NotificationCompat.Builder(this, MyNotificationChannel.CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Notification")
-                .setContentText("Hi!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(contentIntent)
-                .setAutoCancel(true)
-                .setOnlyAlertOnce(true)
-                .setVisibility(VISIBILITY_PUBLIC)
-                .setColor(Color.BLUE)
-                .build();//change colour.
-
-        notificationManager.notify(1, notification);
-    }
-
     //Reminder
     public void startAlarm(){
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 13);
-        c.set(Calendar.MINUTE, 44);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);

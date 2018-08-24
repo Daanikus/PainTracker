@@ -12,6 +12,8 @@ import static android.app.Notification.VISIBILITY_PUBLIC;
 
 public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
+    private static final String TITLE = "Welcome";
+    private static final String CONTENT = "Create an entry, click the + button.";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -19,8 +21,8 @@ public class AlertReceiver extends BroadcastReceiver {
 
         Notification notification = new NotificationCompat.Builder(context, MyNotificationChannel.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Alarm:")
-                .setContentText("Hooray!!")
+                .setContentTitle(TITLE)
+                .setContentText(CONTENT)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOnlyAlertOnce(true)
                 .setVisibility(VISIBILITY_PUBLIC)
