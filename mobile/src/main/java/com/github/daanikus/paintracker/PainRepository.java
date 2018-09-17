@@ -31,6 +31,8 @@ public class PainRepository {
         new insertAsyncTask(mDao).execute(pain);
     }
 
+    //public Pain getRecent() { new insertAsyncTask(mDao).execute(); }
+
     /**
      * This class extends AsyncTask for an asynchronous call to add
      * the given Pain entry to the DB
@@ -49,4 +51,5 @@ public class PainRepository {
             return null;
         }
     }
+
 }

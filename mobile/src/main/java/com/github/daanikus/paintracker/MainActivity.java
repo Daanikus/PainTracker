@@ -1,7 +1,6 @@
 package com.github.daanikus.paintracker;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,8 +16,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,8 +42,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static android.app.Notification.VISIBILITY_PUBLIC;
-
 /**
  * Here the user can view and interact with their pain history by viewing the graph, and tapping on
  * a particular data point to expand its information. The user can also add a new pain entry by
@@ -63,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
     private static int count = 0;
+
+    private AlertReceiver alertReceiver = new AlertReceiver();
+    //time in milliseconds
+    private static long mostRectent = 0;
+
+    //One minute in milliseconds
+    private static final long WAIT = 0;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -105,7 +107,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startAlarm();
+
+        //Judging from this, cannot access Static Data in the main activity...
+        if(staticData == null){
+            Log.i("Static Data:", "This mfkr is NULL");
+        }
+        Log.i("Static Data:", "This is testing the log of this message... :)");
+
+        pushNotification(System.currentTimeMillis()+WAIT);
+
     }
 
 
@@ -193,6 +203,11 @@ public class MainActivity extends AppCompatActivity {
         this.graph.removeAllSeries();
         for (Pain p : pains) {
             Date date = new Date(p.getTimestamp());
+            if (p.getTimestamp() > mostRectent) {
+                mostRectent = p.getTimestamp();
+                //alertReceiver.setMostRecent(mostRectent);
+                Log.i("mostRecent",""+mostRectent);
+            }
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
         }
@@ -238,6 +253,8 @@ public class MainActivity extends AppCompatActivity {
                                         + p.getLocationX()
                                         + "  Y: "
                                         + p.getLocationY());
+
+                        Log.i("Static Data:", "Timestamp - "+p.getTimestamp());
                         break;
                     }
                 }
@@ -297,20 +314,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Reminder
-    public void startAlarm(){
+    public void pushNotification(long time){
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
+        c.setTimeInMillis(time);
+        //c.set(Calendar.HOUR_OF_DAY, hour);
+        //c.set(Calendar.MINUTE, min);
+        //c.set(Calendar.SECOND, sec);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        //Each hour evaluate mostRecent before pushing a notification.
 
-        Log.i("Time", ""+c.toString());
+        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
     }
 
 

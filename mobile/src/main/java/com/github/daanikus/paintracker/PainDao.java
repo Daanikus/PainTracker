@@ -25,6 +25,10 @@ public interface PainDao {
     @Query("SELECT * FROM Pain WHERE timestamp IN (:timestamp) LIMIT 1")
     Pain getPainByTimestamp(long timestamp);
 
+    //Select the most recent pain entry.
+    @Query("SELECT * FROM Pain WHERE id = (SELECT MAX(id) FROM Pain)")
+    Pain getPainRecent();
+
     @Insert
     void insert(Pain pain);
 

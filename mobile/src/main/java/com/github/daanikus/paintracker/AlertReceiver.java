@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import static android.app.Notification.VISIBILITY_PUBLIC;
 
@@ -14,6 +15,9 @@ public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
     private static final String TITLE = "Welcome";
     private static final String CONTENT = "Create an entry, click the + button.";
+    private static long mostRecent = 0;
+    private static final long WAIT = 0;
+    private static int count = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,7 +32,18 @@ public class AlertReceiver extends BroadcastReceiver {
                 .setVisibility(VISIBILITY_PUBLIC)
                 .setColor(Color.BLUE)
                 .build();
+        if ((mostRecent+WAIT) < System.currentTimeMillis()) {
+            mNotificationManager.notify(1, notification);
+            count++;
+            Log.i("Condition", ""+mostRecent+" "+count);
+        }
+    }
 
-        mNotificationManager.notify(1, notification);
+    public AlertReceiver() {
+
+    }
+
+    public static void setMostRecent(long mostRecent) {
+        AlertReceiver.mostRecent = mostRecent;
     }
 }
