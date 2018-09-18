@@ -6,12 +6,15 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -233,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
             if (lastPainForDate != null) {
                 String date = lastPainForDate.getDayAsFormattedString();
                 graphDayTextView.setText(date);
-                graphDayTextView.setTextColor(R.color.black);
+                graphDayTextView.setTextColor(getResources().getColor(R.color.black));
                 Log.d(TAG,"Day set to " + date);
             }
         }
@@ -301,9 +304,11 @@ public class MainActivity extends AppCompatActivity {
         // write the document content
         String targetPdf = Environment.getExternalStorageDirectory().getPath();
         File filePath = new File(targetPdf + "/test.pdf");
+        Boolean success = false;
         try {
             document.writeTo(new FileOutputStream(filePath));
             Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+            success = true;
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Something wrong: " + e.toString(),
@@ -311,6 +316,20 @@ public class MainActivity extends AppCompatActivity {
         }
         // close the document
         document.close();
+        if (success) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(filePath.toString()));
+            intent.setType("application/pdf");
+            PackageManager pm = getPackageManager();
+            List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+            if (activities.size() > 0) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(this,
+                        "No PDF viewer found. File saved to storage."
+                        , Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     //Reminder
