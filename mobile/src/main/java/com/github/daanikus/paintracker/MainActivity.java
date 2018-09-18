@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -84,17 +85,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
         this.graph = initializeGraph();
+
         cardTextView = findViewById(R.id.card_text_view);
+
         graphDayTextView = findViewById(R.id.graph_day_text_view);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        final List<Pain> staticData = null;
+
+        final List<Pain> staticData = null; //TODO what's this?
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, NEW_PAIN_ACTIVITY_REQUEST_CODE);
             }
         });
+
         Button pdfButton = findViewById(R.id.button_pdf);
         pdfButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +129,35 @@ public class MainActivity extends AppCompatActivity {
                 updateGraph(pains);
             }
         });
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+
+                        switch (menuItem.getTitle().toString()) {
+                            case "Home":
+                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                break;
+                            case "History":
+                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                break;
+                            case "Export to PDF":
+                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                break;
+                            case "Help":
+                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+
+                        return true;
+                    }
+                });
 
 
         //Judging from this, cannot access Static Data in the main activity...
