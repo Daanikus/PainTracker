@@ -55,13 +55,6 @@
             android:textColor="@color/black"
             android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/button_pdf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="PDF"
-            android:textColor="@color/buttonLabel" />
 
         <!--<Button
 
@@ -78,10 +71,12 @@
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_add_black_24dp" />
 
-        <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+
 
 
     </GridLayout>
+    <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

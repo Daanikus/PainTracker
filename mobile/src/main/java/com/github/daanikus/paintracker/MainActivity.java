@@ -113,13 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button pdfButton = findViewById(R.id.button_pdf);
-        pdfButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createPdf();
-            }
-        });
 
         mPainViewModel = ViewModelProviders.of(this).get(PainViewModel.class);
         mPainViewModel.getAllPains().observe(this, new Observer<List<Pain>>() {
@@ -148,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 break;
                             case "Export to PDF":
-                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                createPdf();
                                 break;
                             case "Help":
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();

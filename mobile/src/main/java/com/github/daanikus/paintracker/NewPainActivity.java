@@ -2,8 +2,11 @@ package com.github.daanikus.paintracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -72,18 +75,39 @@ public class NewPainActivity extends AppCompatActivity {
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setColor(Color.BLACK);
                 if (System.currentTimeMillis() - lastClicked > DEBOUNCE_TIME) {
-                    float x = event.getX();
-                    float y = event.getY();
+                    int touchX = (int)(event.getX());
+                    int touchY = (int)(event.getY());
                     int[] imageLocation = new int[2];
                     v.getLocationOnScreen(imageLocation);
-                    painLocation[0] = (int) x - imageLocation[0];
-                    painLocation[1] = (int) y - imageLocation[1];
+                    painLocation[0] = touchX - imageLocation[0];
+                    painLocation[1] = touchY - imageLocation[1];
                     Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
                 }
                 lastClicked = System.currentTimeMillis();
                 return true;
             }
         });
+
+        /**final ImageView ivImage = findViewById(R.id.human_image_view);
+        final Bitmap bitmap = ((BitmapDrawable)ivImage.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+        ivImage.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                int touchX = (int)(event.getX());
+                int touchY = (int)(event.getY());
+                Canvas canvas = new Canvas(bitmap);
+                Paint paint = new Paint();
+                paint.setColor(Color.GREEN);
+                canvas.drawCircle(touchX, touchY, 20, paint);    // for circle dot
+                //canvas.drawPoint(touchX, touchY, paint);  // for single point
+                ivImage.setImageBitmap(bitmap);
+                ivImage.invalidate();
+                Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });**/
 
         /**
          * Saves a new pain entry to the database.
