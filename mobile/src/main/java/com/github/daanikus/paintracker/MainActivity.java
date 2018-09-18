@@ -19,9 +19,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView cardTextView;
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
+    private DrawerLayout mDrawerLayout;
     private static int count = 0;
 
     private AlertReceiver alertReceiver = new AlertReceiver();
@@ -79,8 +84,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         this.graph = initializeGraph();
         cardTextView = findViewById(R.id.card_text_view);
         graphDayTextView = findViewById(R.id.graph_day_text_view);
@@ -119,6 +128,16 @@ public class MainActivity extends AppCompatActivity {
 
         pushNotification(System.currentTimeMillis()+WAIT);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
