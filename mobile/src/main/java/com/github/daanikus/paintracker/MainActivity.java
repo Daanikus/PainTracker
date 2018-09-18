@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             Date date = new Date(p.getTimestamp());
             if (p.getTimestamp() > mostRectent) {
                 mostRectent = p.getTimestamp();
-                //alertReceiver.setMostRecent(mostRectent);
+                alertReceiver.setMostRecent(mostRectent);
                 Log.i("mostRecent",""+mostRectent);
             }
             series.appendData(new DataPoint(date, p.getPainLevel()),

@@ -32,6 +32,8 @@ public class AlertReceiver extends BroadcastReceiver {
                 .setVisibility(VISIBILITY_PUBLIC)
                 .setColor(Color.BLUE)
                 .build();
+
+
         if ((mostRecent+WAIT) < System.currentTimeMillis()) {
             mNotificationManager.notify(1, notification);
             count++;
