@@ -51,12 +51,12 @@ public class Stats {
     }
 
     public static void printStats(){
-        Log.i("Stats", "\nMost Recent\t"+mostRecent+"\n"+
-                                "Total Entries\t"+totalEntries+"\n"+
-                                "Total Pain\t"+totalPain+"\n"+
-                                "Average Pain\t"+avePainLevel+"\n"+
-                                "Minimum\t"+min+"\n"+
-                                "Maximum\t"+max+"\n");
+        Log.i("Stats", "mostRecent "+mostRecent+"\n"+
+                                "totalEntries "+totalEntries+"\n"+
+                                "totalPain "+totalPain+"\n"+
+                                "avePain "+avePainLevel+"\n"+
+                                "minimum "+min+"\n"+
+                                "maximum "+max+"\n");
     }
 
 }
