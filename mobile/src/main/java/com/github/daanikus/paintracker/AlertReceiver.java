@@ -13,8 +13,8 @@ import static android.app.Notification.VISIBILITY_PUBLIC;
 
 public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
-    private static final String TITLE = "Welcome";
-    private static final String CONTENT = "Create an entry, click the + button.";
+    private static String TITLE = "";
+    private static String CONTENT = "";
     private static long mostRecent = 0;
     private static final long WAIT = 0;
     private static int count = 0;
@@ -23,7 +23,10 @@ public class AlertReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification notification = new NotificationCompat.Builder(context, MyNotificationChannel.CHANNEL_1_ID)
+        if ((mostRecent+WAIT) < System.currentTimeMillis()) {
+            sendReminder();
+
+            Notification notification = new NotificationCompat.Builder(context, MyNotificationChannel.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(TITLE)
                 .setContentText(CONTENT)
@@ -33,8 +36,6 @@ public class AlertReceiver extends BroadcastReceiver {
                 .setColor(Color.BLUE)
                 .build();
 
-
-        if ((mostRecent+WAIT) < System.currentTimeMillis()) {
             mNotificationManager.notify(1, notification);
             count++;
             Log.i("Condition", ""+mostRecent+" "+count);
@@ -47,5 +48,15 @@ public class AlertReceiver extends BroadcastReceiver {
 
     public static void setMostRecent(long mostRecent) {
         AlertReceiver.mostRecent = mostRecent;
+    }
+
+    public void sendWelcome(){
+        this.TITLE = "Welcome";
+        this.CONTENT = "Create an entry, click the + button.";
+    }
+
+    public void sendReminder(){
+        this.TITLE = "Reminder";
+        this.CONTENT = "It's been a while since your last entry.";
     }
 }
