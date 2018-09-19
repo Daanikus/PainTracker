@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertReceiver alertReceiver = new AlertReceiver();
     //time in milliseconds
-    private static long mostRectent = 0;
+    private static long mostRecent = 0;
 
     //One minute in milliseconds
     private static final long WAIT = 0;
@@ -253,16 +253,16 @@ public class MainActivity extends AppCompatActivity {
      * @param pains
      */
     public void updateGraph(final List<Pain> pains) {
-        this.staticData = new ArrayList<Pain>(pains);
+        this.staticData = new ArrayList<>(pains);
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
 
         this.graph.removeAllSeries();
         for (Pain p : pains) {
             Date date = new Date(p.getTimestamp());
-            if (p.getTimestamp() > mostRectent) {
-                mostRectent = p.getTimestamp();
-                alertReceiver.setMostRecent(mostRectent);
-                Log.i("mostRecent",""+mostRectent);
+            if (p.getTimestamp() > mostRecent) {
+                mostRecent = p.getTimestamp();
+                alertReceiver.setMostRecent(mostRecent);
+                Log.i("mostRecent",""+ mostRecent);
             }
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
             Pain lastPainForDate = pains.get(pains.size() - 1);
             if (lastPainForDate != null) {
                 String date = lastPainForDate.getDayAsFormattedString();
-                graphDayTextView.setText(date);
+                graphDayTextView.setText("Graph showing: " + date);
                 graphDayTextView.setTextColor(getResources().getColor(R.color.black));
                 Log.d(TAG,"Day set to " + date);
             }
