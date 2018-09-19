@@ -13,23 +13,27 @@ import static android.app.Notification.VISIBILITY_PUBLIC;
 
 public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
-    private static String TITLE = "";
-    private static String CONTENT = "";
+    private static String title = "";
+    private static String content = "";
     private static long mostRecent = 0;
-    private static final long WAIT = 0;
+    private static long wait = 0;
     private static int count = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if ((mostRecent+WAIT) < System.currentTimeMillis()) {
-            sendReminder();
+        if ((mostRecent+wait) < System.currentTimeMillis()) {
+            if(Stats.getTotalEntries() == 0) {
+                sendWelcome();
+            } else {
+                sendReminder();
+            }
 
             Notification notification = new NotificationCompat.Builder(context, MyNotificationChannel.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(TITLE)
-                .setContentText(CONTENT)
+                .setContentTitle(title)
+                .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOnlyAlertOnce(true)
                 .setVisibility(VISIBILITY_PUBLIC)
@@ -51,12 +55,12 @@ public class AlertReceiver extends BroadcastReceiver {
     }
 
     public void sendWelcome(){
-        this.TITLE = "Welcome";
-        this.CONTENT = "Create an entry, click the + button.";
+        this.title = "Welcome";
+        this.content = "Create an entry, click the + button.";
     }
 
     public void sendReminder(){
-        this.TITLE = "Reminder";
-        this.CONTENT = "It's been a while since your last entry.";
+        this.title = "Reminder";
+        this.content = "It's been a while since your last entry.";
     }
 }

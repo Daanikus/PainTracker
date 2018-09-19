@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.graph.removeAllSeries();
         for (Pain p : pains) {
+            Stats.updateStats(p);
             Date date = new Date(p.getTimestamp());
             if (p.getTimestamp() > mostRectent) {
                 mostRectent = p.getTimestamp();
@@ -267,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
         }
+        Stats.printStats();
 
 
         series.setColor(getResources().getColor(R.color.colorAccent));
