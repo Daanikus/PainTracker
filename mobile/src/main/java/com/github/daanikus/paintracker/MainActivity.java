@@ -1,10 +1,12 @@
 package com.github.daanikus.paintracker;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         graphDayTextView = findViewById(R.id.graph_day_text_view);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         final List<Pain> staticData = null; //TODO what's this?
 
@@ -145,7 +147,28 @@ public class MainActivity extends AppCompatActivity {
                                 createPdf();
                                 break;
                             case "Help":
-                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                AlertDialog helpDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                helpDialog.setTitle("Help");
+                                helpDialog.setMessage("Help message here");
+                                helpDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                helpDialog.show();
+                                break;
+                            case "About":
+                                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                alertDialog.setTitle("About");
+                                alertDialog.setMessage(getString(R.string.about_app));
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
                                 break;
                         }
 
@@ -153,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-
+        // TODO what's this?
         //Judging from this, cannot access Static Data in the main activity...
         if(staticData == null){
             Log.i("Static Data:", "This mfkr is NULL");

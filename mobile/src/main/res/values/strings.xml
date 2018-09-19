@@ -9,4 +9,5 @@
     <string name="textContent">Test</string>
     <string name="channelName">Reminders</string>
     <string name="channelDescription">Helps you remember to log how you are feeling.</string>
+    <string name="about_app">Made by:\n\nDan Bent\nSam Fleury\nEmilio McFadzean\n\nFor COSC345\n\n2018 </string>
 </resources>
