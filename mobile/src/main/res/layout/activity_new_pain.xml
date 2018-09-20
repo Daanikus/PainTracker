@@ -29,6 +29,7 @@
         android:textSize="24dp"
         android:text="Pain Level:"
         android:id="@+id/new_pain_seek_text_view"
+        android:paddingHorizontal="40dp"
         android:textColor="@color/black"/><!--background colour-->
 
     <SeekBar
@@ -37,6 +38,7 @@
         android:scrollbarSize="@dimen/small_padding"
         android:layout_height="wrap_content"
         android:max="10"
+        android:paddingHorizontal="40dp"
         android:progressBackgroundTint="@color/black"
         />
 
@@ -44,6 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24dp"
+        android:paddingHorizontal="40dp"
         android:text="Comment:"
         android:textColor="@color/black"/>
 
@@ -54,25 +57,28 @@
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_word"
         android:inputType="textAutoComplete"
-        android:padding="@dimen/small_padding"
-        android:layout_marginBottom="@dimen/big_padding"
-        android:layout_marginTop="@dimen/big_padding"
+        android:paddingHorizontal="40dp"
         android:textSize="18sp"
         android:textColorHint="@color/black"/>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:padding="@dimen/small_padding"
         android:id="@+id/human_image_view"
+        android:paddingHorizontal="40dp"
         android:src="@mipmap/human_no_bg"/>
 
+    <Space
+        android:layout_height="30dp"/>
     <Button
         android:id="@+id/button_save"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:background="@color/colorPrimary"
         android:text="@string/button_save"
+        android:paddingHorizontal="40dp"
         android:textColor="@color/buttonLabel" />
 
 
