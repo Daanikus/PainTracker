@@ -34,11 +34,11 @@
 
     <SeekBar
         android:id="@+id/pain_seekbar"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:scrollbarSize="@dimen/small_padding"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:max="10"
-        android:paddingHorizontal="40dp"
         android:progressBackgroundTint="@color/black"
         />
 
@@ -70,7 +70,7 @@
         android:src="@mipmap/human_no_bg"/>
 
     <Space
-        android:layout_height="30dp"/>
+        android:layout_height="25dp"/>
     <Button
         android:id="@+id/button_save"
         android:layout_width="150dp"
