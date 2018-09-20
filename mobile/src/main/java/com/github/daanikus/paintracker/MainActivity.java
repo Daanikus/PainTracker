@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         mPainViewModel.getAllPains().observe(this, new Observer<List<Pain>>() {
             @Override
             public void onChanged(@Nullable final List<Pain> pains) {
-
+                updateStaticData(pains);
                 updateGraph(pains);
             }
         });
@@ -140,7 +140,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 break;
                             case "History":
-                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
+                                startActivity(historyIntent);
                                 break;
                             case "Export to PDF":
                                 // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
@@ -185,6 +187,10 @@ public class MainActivity extends AppCompatActivity {
 
         pushNotification(System.currentTimeMillis()+WAIT);
 
+    }
+
+    public void updateStaticData(List<Pain> pains) {
+        this.staticData = (ArrayList) pains;
     }
 
     @Override

@@ -74,10 +74,11 @@ public class NewPainActivity extends AppCompatActivity {
             final long DEBOUNCE_TIME = 1000;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Paint paint = new Paint();
-                paint.setColor(Color.GREEN);
-                Canvas canvas = new Canvas(bitmap);
+
                 if (System.currentTimeMillis() - lastClicked > DEBOUNCE_TIME) {
+                    Paint paint = new Paint();
+                    paint.setColor(Color.GREEN);
+                    Canvas canvas = new Canvas(bitmap);
                     int touchX = (int)(event.getX());
                     int touchY = (int)(event.getY());
                     int[] imageLocation = new int[2];
