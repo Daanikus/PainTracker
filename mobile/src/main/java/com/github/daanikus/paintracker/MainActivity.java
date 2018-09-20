@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                             case "Help":
                                 AlertDialog helpDialog = new AlertDialog.Builder(MainActivity.this).create();
                                 helpDialog.setTitle("Help");
-                                helpDialog.setMessage("Help message here");
+                                helpDialog.setMessage(getString(R.string.help_dialog));
                                 helpDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
