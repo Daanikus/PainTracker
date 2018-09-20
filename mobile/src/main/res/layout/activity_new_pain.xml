@@ -49,7 +49,7 @@
         android:layout_height="250dp"
         android:padding="@dimen/small_padding"
         android:id="@+id/human_image_view"
-        android:src="@mipmap/human_silhouette"/>
+        android:src="@mipmap/human_no_bg"/>
 
     <Button
         android:id="@+id/button_save"

@@ -66,14 +66,17 @@ public class NewPainActivity extends AppCompatActivity {
          * Tracks the location of a user's pain. Logged as an X and Y coordinate by them tapping the
          * image. The most recent tap, before the save button is pushed, is recorded.
          */
-        ImageView image = findViewById(R.id.human_image_view);
+
+        final ImageView image = findViewById(R.id.human_image_view);
+        final Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
         image.setOnTouchListener(new View.OnTouchListener() { // TODO work out the performClick override
             long lastClicked = System.currentTimeMillis();
             final long DEBOUNCE_TIME = 1000;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                paint.setColor(Color.BLACK);
+                Paint paint = new Paint();
+                paint.setColor(Color.GREEN);
+                Canvas canvas = new Canvas(bitmap);
                 if (System.currentTimeMillis() - lastClicked > DEBOUNCE_TIME) {
                     int touchX = (int)(event.getX());
                     int touchY = (int)(event.getY());
@@ -81,7 +84,10 @@ public class NewPainActivity extends AppCompatActivity {
                     v.getLocationOnScreen(imageLocation);
                     painLocation[0] = touchX - imageLocation[0];
                     painLocation[1] = touchY - imageLocation[1];
+                    canvas.drawCircle(touchX, touchY, 20, paint);    // for circle dot
                     Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
+                    image.setImageBitmap(bitmap);
+                    image.invalidate();
                 }
                 lastClicked = System.currentTimeMillis();
                 return true;
