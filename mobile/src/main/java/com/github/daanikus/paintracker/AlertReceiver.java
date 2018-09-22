@@ -15,19 +15,20 @@ public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
     private static String title = "";
     private static String content = "";
-    private static long mostRecent = 0;
     private static long wait = 0;
-    private static int count = 0;
+    private static String status = "";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if ((mostRecent+wait) < System.currentTimeMillis()) {
+        if ((Stats.getMostRecent()+wait) < System.currentTimeMillis()) {
             if(Stats.getTotalEntries() == 0) {
                 sendWelcome();
+                status = "Welcome sent.";
             } else {
                 sendReminder();
+                status = "Reminder sent.";
             }
 
             Notification notification = new NotificationCompat.Builder(context, MyNotificationChannel.CHANNEL_1_ID)
@@ -41,17 +42,14 @@ public class AlertReceiver extends BroadcastReceiver {
                 .build();
 
             mNotificationManager.notify(1, notification);
-            count++;
-            Log.i("Condition", ""+mostRecent+" "+count);
+        } else {
+            status = "None sent.";
         }
+        Log.i("Notification Status", status);
     }
 
     public AlertReceiver() {
 
-    }
-
-    public static void setMostRecent(long mostRecent) {
-        AlertReceiver.mostRecent = mostRecent;
     }
 
     public void sendWelcome(){

@@ -38,7 +38,7 @@
         <receiver android:name=".AlertReceiver"/>
         <activity android:name=".NewPainActivity"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".HistoryActivity"
+        <activity android:name=".HomeActivity"
             android:parentActivityName=".MainActivity" />
     </application>
 

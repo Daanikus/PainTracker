@@ -30,7 +30,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +47,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -141,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "History":
                                 // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                                Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
+                                Intent historyIntent = new Intent(MainActivity.this, HomeActivity.class);
                                 startActivity(historyIntent);
                                 break;
                             case "Export to PDF":
@@ -178,14 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // TODO what's this?
-        //Judging from this, cannot access Static Data in the main activity...
-        if(staticData == null){
-            Log.i("Static Data:", "This mfkr is NULL");
-        }
-        Log.i("Static Data:", "This is testing the log of this message... :)");
-
-        pushNotification(System.currentTimeMillis()+WAIT);
+        startAlertRecevicerRepeating(AlarmManager.INTERVAL_HALF_HOUR);
 
     }
 
@@ -291,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
             Date date = new Date(p.getTimestamp());
             if (p.getTimestamp() > mostRecent) {
                 mostRecent = p.getTimestamp();
-                alertReceiver.setMostRecent(mostRecent);
+                Stats.setMostRecent(mostRecent);
                 Log.i("mostRecent",""+ mostRecent);
             }
             series.appendData(new DataPoint(date, p.getPainLevel()),
@@ -417,22 +408,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Reminder
-    public void pushNotification(long time){
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(time);
-        //c.set(Calendar.HOUR_OF_DAY, hour);
-        //c.set(Calendar.MINUTE, min);
-        //c.set(Calendar.SECOND, sec);
 
+    /**
+     * This function starts a repeating alarm, that will, every half hour, call the AlertReceiver.
+     * The AlertReceiver then evaluates whether a notification should be pushed or not.
+     *
+     * @param interval
+     */
+    public void startAlertRecevicerRepeating(long interval){
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
-        //Each hour evaluate mostRecent before pushing a notification.
-
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
     }
 
 
