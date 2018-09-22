@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +43,9 @@ public class NewPainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_pain);
+        Toolbar toolbar = findViewById(R.id.toolbar_new_pain);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mEditPainView = findViewById(R.id.edit_pain);
         seekBar = findViewById(R.id.pain_seekbar);
         final TextView seekTextView = findViewById(R.id.new_pain_seek_text_view);
@@ -66,22 +71,29 @@ public class NewPainActivity extends AppCompatActivity {
          * Tracks the location of a user's pain. Logged as an X and Y coordinate by them tapping the
          * image. The most recent tap, before the save button is pushed, is recorded.
          */
-        ImageView image = findViewById(R.id.human_image_view);
+
+        final ImageView image = findViewById(R.id.human_image_view);
+        final Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
         image.setOnTouchListener(new View.OnTouchListener() { // TODO work out the performClick override
             long lastClicked = System.currentTimeMillis();
             final long DEBOUNCE_TIME = 1000;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                paint.setColor(Color.BLACK);
+
                 if (System.currentTimeMillis() - lastClicked > DEBOUNCE_TIME) {
+                    Paint paint = new Paint();
+                    paint.setColor(Color.GREEN);
+                    Canvas canvas = new Canvas(bitmap);
                     int touchX = (int)(event.getX());
                     int touchY = (int)(event.getY());
                     int[] imageLocation = new int[2];
                     v.getLocationOnScreen(imageLocation);
                     painLocation[0] = touchX - imageLocation[0];
                     painLocation[1] = touchY - imageLocation[1];
+                    canvas.drawCircle(touchX, touchY, 20, paint);    // for circle dot
                     Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
+                    image.setImageBitmap(bitmap);
+                    image.invalidate();
                 }
                 lastClicked = System.currentTimeMillis();
                 return true;
@@ -136,5 +148,20 @@ public class NewPainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(NewPainActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

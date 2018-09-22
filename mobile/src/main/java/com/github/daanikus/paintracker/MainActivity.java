@@ -1,10 +1,12 @@
 package com.github.daanikus.paintracker;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AlertReceiver alertReceiver = new AlertReceiver();
     //time in milliseconds
-    private static long mostRectent = 0;
+    private static long mostRecent = 0;
 
     //One minute in milliseconds
     private static final long WAIT = 0;
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         graphDayTextView = findViewById(R.id.graph_day_text_view);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         final List<Pain> staticData = null; //TODO what's this?
 
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         mPainViewModel.getAllPains().observe(this, new Observer<List<Pain>>() {
             @Override
             public void onChanged(@Nullable final List<Pain> pains) {
-
+                updateStaticData(pains);
                 updateGraph(pains);
             }
         });
@@ -138,14 +140,37 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 break;
                             case "History":
-                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
+                                startActivity(historyIntent);
                                 break;
                             case "Export to PDF":
                                 // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 createPdf();
                                 break;
                             case "Help":
-                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                AlertDialog helpDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                helpDialog.setTitle("Help");
+                                helpDialog.setMessage(getString(R.string.help_dialog));
+                                helpDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                helpDialog.show();
+                                break;
+                            case "About":
+                                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                alertDialog.setTitle("About");
+                                alertDialog.setMessage(getString(R.string.about_app));
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
                                 break;
                         }
 
@@ -153,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-
+        // TODO what's this?
         //Judging from this, cannot access Static Data in the main activity...
         if(staticData == null){
             Log.i("Static Data:", "This mfkr is NULL");
@@ -162,6 +187,10 @@ public class MainActivity extends AppCompatActivity {
 
         pushNotification(System.currentTimeMillis()+WAIT);
 
+    }
+
+    public void updateStaticData(List<Pain> pains) {
+        this.staticData = (ArrayList) pains;
     }
 
     @Override
@@ -253,17 +282,17 @@ public class MainActivity extends AppCompatActivity {
      * @param pains
      */
     public void updateGraph(final List<Pain> pains) {
-        this.staticData = new ArrayList<Pain>(pains);
+        this.staticData = new ArrayList<>(pains);
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
 
         this.graph.removeAllSeries();
         for (Pain p : pains) {
             Stats.updateStats(p);
             Date date = new Date(p.getTimestamp());
-            if (p.getTimestamp() > mostRectent) {
-                mostRectent = p.getTimestamp();
-                alertReceiver.setMostRecent(mostRectent);
-                Log.i("mostRecent",""+mostRectent);
+            if (p.getTimestamp() > mostRecent) {
+                mostRecent = p.getTimestamp();
+                alertReceiver.setMostRecent(mostRecent);
+                Log.i("mostRecent",""+ mostRecent);
             }
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
@@ -290,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
             Pain lastPainForDate = pains.get(pains.size() - 1);
             if (lastPainForDate != null) {
                 String date = lastPainForDate.getDayAsFormattedString();
-                graphDayTextView.setText(date);
+                graphDayTextView.setText("Graph showing: " + date);
                 graphDayTextView.setTextColor(getResources().getColor(R.color.black));
                 Log.d(TAG,"Day set to " + date);
             }
