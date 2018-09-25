@@ -11,4 +11,6 @@
     <string name="channelDescription">Helps you remember to log how you are feeling.</string>
     <string name="about_app">Made by:\n\nDan Bent\nSam Fleury\nEmilio McFadzean\n\nFor COSC345\n\n2018 </string>
     <string name="help_dialog">Help message here</string>
+    <string name="pref_notifications">Notifications</string>
+    <string name="pref_notifications_summary">Enable notifications from Pain Tracker</string>
 </resources>
