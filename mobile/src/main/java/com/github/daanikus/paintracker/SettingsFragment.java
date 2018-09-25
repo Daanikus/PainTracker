@@ -3,6 +3,7 @@ package com.github.daanikus.paintracker;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
