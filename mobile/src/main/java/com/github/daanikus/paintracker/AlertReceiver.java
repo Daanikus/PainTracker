@@ -15,7 +15,7 @@ public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
     private static String title = "";
     private static String content = "";
-    private static long wait = 0;
+    private static long wait = 600000; //10 minutes
     private static String status = "";
 
     @Override
@@ -25,10 +25,8 @@ public class AlertReceiver extends BroadcastReceiver {
         if ((Stats.getMostRecent()+wait) < System.currentTimeMillis()) {
             if(Stats.getTotalEntries() == 0) {
                 sendWelcome();
-                status = "Welcome sent.";
             } else {
                 sendReminder();
-                status = "Reminder sent.";
             }
 
             Notification notification = new NotificationCompat.Builder(context, MyNotificationChannel.CHANNEL_1_ID)
@@ -55,10 +53,12 @@ public class AlertReceiver extends BroadcastReceiver {
     public void sendWelcome(){
         this.title = "Welcome";
         this.content = "Create an entry, click the + button.";
+        status = "Welcome sent.";
     }
 
     public void sendReminder(){
         this.title = "Reminder";
         this.content = "It's been a while since your last entry.";
+        status = "Reminder sent.";
     }
 }

@@ -66,14 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
     private DrawerLayout mDrawerLayout;
-    private static int count = 0;
-
-    private AlertReceiver alertReceiver = new AlertReceiver();
-    //time in milliseconds
-    private static long mostRecent = 0;
-
-    //One minute in milliseconds
-    private static final long WAIT = 0;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -139,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "History":
                                 // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                                Intent historyIntent = new Intent(MainActivity.this, HomeActivity.class);
+                                Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
                                 startActivity(historyIntent);
                                 break;
                             case "Export to PDF":
@@ -280,10 +272,8 @@ public class MainActivity extends AppCompatActivity {
         for (Pain p : pains) {
             Stats.updateStats(p);
             Date date = new Date(p.getTimestamp());
-            if (p.getTimestamp() > mostRecent) {
-                mostRecent = p.getTimestamp();
-                Stats.setMostRecent(mostRecent);
-                Log.i("mostRecent",""+ mostRecent);
+            if (p.getTimestamp() > Stats.getMostRecent()) {
+                Stats.setMostRecent(p.getTimestamp());
             }
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
@@ -424,6 +414,5 @@ public class MainActivity extends AppCompatActivity {
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
     }
-
 
 }
