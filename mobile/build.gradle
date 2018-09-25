@@ -38,10 +38,6 @@ dependencies {
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.1.1"
-    // alternatively, just ViewModel
-    implementation "android.arch.lifecycle:viewmodel:1.1.1"
-    // alternatively, just LiveData
-    implementation "android.arch.lifecycle:livedata:1.1.1"
 
     annotationProcessor "android.arch.lifecycle:common-java8:1.1.1"
 

@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -30,7 +32,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static PainViewModel mPainViewModel;
     public static final int NEW_PAIN_ACTIVITY_REQUEST_CODE = 1;
+    public static boolean notificationsOn;
     private static final String TAG = "MainActivity";
     private GraphView graph;
     private TextView cardTextView;
@@ -95,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        notificationsOn = sharedPref.getBoolean("pref_notif", true);
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         this.graph = initializeGraph();
@@ -102,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         cardTextView = findViewById(R.id.card_text_view);
 
         graphDayTextView = findViewById(R.id.graph_day_text_view);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -139,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
                             case "Home":
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 break;
-                            case "History":
-                                // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                                Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
-                                startActivity(historyIntent);
+                            case "Settings":
+                                Toast.makeText(getApplicationContext(),"Notif is " + notificationsOn, Toast.LENGTH_SHORT).show();
+                                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                                startActivity(settingsIntent);
                                 break;
                             case "Export to PDF":
                                 // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
@@ -418,6 +425,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Reminder
     public void pushNotification(long time){
+
+        if (!notificationsOn) return;
+
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(time);
         //c.set(Calendar.HOUR_OF_DAY, hour);
