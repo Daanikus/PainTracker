@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Reminder
     public void pushNotification(long time){
-
+        // If notifications disabled in settings, don't do anything
         if (!notificationsOn) return;
 
         Calendar c = Calendar.getInstance();
