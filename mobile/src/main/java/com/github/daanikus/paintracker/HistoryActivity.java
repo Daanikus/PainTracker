@@ -1,9 +1,7 @@
 package com.github.daanikus.paintracker;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;

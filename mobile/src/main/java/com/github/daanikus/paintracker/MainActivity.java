@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                             case "Help":
                                 AlertDialog helpDialog = new AlertDialog.Builder(MainActivity.this).create();
                                 helpDialog.setTitle("Help");
-                                helpDialog.setMessage(getString(R.string.help_dialog));
+                                helpDialog.setMessage(getString(R.string.help_desc));
                                 helpDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
@@ -272,9 +272,12 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setScalable(true);
 
 
-        graph.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(android.R.color.black));
-        graph.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(android.R.color.black));
-        graph.getGridLabelRenderer().setGridColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer()
+                .setHorizontalLabelsColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer()
+                .setVerticalLabelsColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer()
+                .setGridColor(getResources().getColor(android.R.color.black));
 
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(X_AXIS_LABEL_ANGLE);
         graph.getGridLabelRenderer().setNumHorizontalLabels(PAIN_SCALE_UPPER);
@@ -362,7 +365,8 @@ public class MainActivity extends AppCompatActivity {
         PdfDocument document = new PdfDocument();
 
         // crate a page description
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+        PdfDocument.PageInfo pageInfo =
+                new PdfDocument.PageInfo.Builder(595, 842, 1).create();
 
         // start a page
         PdfDocument.Page page = document.startPage(pageInfo);
@@ -375,7 +379,8 @@ public class MainActivity extends AppCompatActivity {
         paint.setColor(Color.RED);
         //ByteArrayOutputStream os = new ByteArrayOutputStream();
         Bitmap graphImage = this.graph.takeSnapshot();
-        canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),  new Rect(0, 0, 100, 100), null);
+        canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),
+                new Rect(0, 0, 100, 100), null);
         for (Pain p : staticData) {
             String output = (p.getTimeAsFormattedString()
                     + "\nComment: "
@@ -422,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
     //Reminder
     public void pushNotification(long time){

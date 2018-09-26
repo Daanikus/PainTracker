@@ -67,9 +67,9 @@ public class NewPainActivity extends AppCompatActivity {
             }
         });
 
-        /**
-         * Tracks the location of a user's pain. Logged as an X and Y coordinate by them tapping the
-         * image. The most recent tap, before the save button is pushed, is recorded.
+        /*
+          Tracks the location of a user's pain. Logged as an X and Y coordinate by them tapping the
+          image. The most recent tap, before the save button is pushed, is recorded.
          */
 
         final ImageView image = findViewById(R.id.human_image_view);
@@ -100,7 +100,7 @@ public class NewPainActivity extends AppCompatActivity {
             }
         });
 
-        /**final ImageView ivImage = findViewById(R.id.human_image_view);
+        /*final ImageView ivImage = findViewById(R.id.human_image_view);
         final Bitmap bitmap = ((BitmapDrawable)ivImage.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
         ivImage.setOnTouchListener(new View.OnTouchListener() {
 
@@ -121,8 +121,8 @@ public class NewPainActivity extends AppCompatActivity {
             }
         });**/
 
-        /**
-         * Saves a new pain entry to the database.
+        /*
+          Saves a new pain entry to the database.
          */
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
