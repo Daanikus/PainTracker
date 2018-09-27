@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -47,6 +49,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -60,12 +63,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static PainViewModel mPainViewModel;
     public static final int NEW_PAIN_ACTIVITY_REQUEST_CODE = 1;
+    public static boolean notificationsOn;
     private static final String TAG = "MainActivity";
     private GraphView graph;
     private TextView cardTextView;
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
     private DrawerLayout mDrawerLayout;
+    private static int count = 0;
+
+    private AlertReceiver alertReceiver = new AlertReceiver();
+    //time in milliseconds
+    private static long mostRecent = 0;
+
+    //One minute in milliseconds
+    private static final long WAIT = 0;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -85,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        notificationsOn = sharedPref.getBoolean("pref_notif", true);
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         this.graph = initializeGraph();
@@ -92,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         cardTextView = findViewById(R.id.card_text_view);
 
         graphDayTextView = findViewById(R.id.graph_day_text_view);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -129,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
                             case "Home":
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 break;
-                            case "History":
-                                // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                                Intent historyIntent = new Intent(MainActivity.this, HistoryActivity.class);
-                                startActivity(historyIntent);
+                            case "Settings":
+                                Toast.makeText(getApplicationContext(),"Notif is " + notificationsOn, Toast.LENGTH_SHORT).show();
+                                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                                startActivity(settingsIntent);
                                 break;
                             case "Export to PDF":
                                 // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
@@ -141,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                             case "Help":
                                 AlertDialog helpDialog = new AlertDialog.Builder(MainActivity.this).create();
                                 helpDialog.setTitle("Help");
-                                helpDialog.setMessage(getString(R.string.help_dialog));
+                                helpDialog.setMessage(getString(R.string.help_desc));
                                 helpDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
@@ -168,7 +185,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        startAlertRecevicerRepeating(AlarmManager.INTERVAL_HALF_HOUR);
+        // TODO what's this?
+        //Judging from this, cannot access Static Data in the main activity...
+        if(staticData == null){
+            Log.i("Static Data:", "This mfkr is NULL");
+        }
+        Log.i("Static Data:", "This is testing the log of this message... :)");
+
+        pushNotification(System.currentTimeMillis()+WAIT);
 
     }
 
@@ -248,9 +272,12 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setScalable(true);
 
 
-        graph.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(android.R.color.black));
-        graph.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(android.R.color.black));
-        graph.getGridLabelRenderer().setGridColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer()
+                .setHorizontalLabelsColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer()
+                .setVerticalLabelsColor(getResources().getColor(android.R.color.black));
+        graph.getGridLabelRenderer()
+                .setGridColor(getResources().getColor(android.R.color.black));
 
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(X_AXIS_LABEL_ANGLE);
         graph.getGridLabelRenderer().setNumHorizontalLabels(PAIN_SCALE_UPPER);
@@ -272,8 +299,10 @@ public class MainActivity extends AppCompatActivity {
         for (Pain p : pains) {
             Stats.updateStats(p);
             Date date = new Date(p.getTimestamp());
-            if (p.getTimestamp() > Stats.getMostRecent()) {
-                Stats.setMostRecent(p.getTimestamp());
+            if (p.getTimestamp() > mostRecent) {
+                mostRecent = p.getTimestamp();
+                alertReceiver.setMostRecent(mostRecent);
+                Log.i("mostRecent",""+ mostRecent);
             }
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
@@ -336,7 +365,8 @@ public class MainActivity extends AppCompatActivity {
         PdfDocument document = new PdfDocument();
 
         // crate a page description
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+        PdfDocument.PageInfo pageInfo =
+                new PdfDocument.PageInfo.Builder(595, 842, 1).create();
 
         // start a page
         PdfDocument.Page page = document.startPage(pageInfo);
@@ -349,7 +379,8 @@ public class MainActivity extends AppCompatActivity {
         paint.setColor(Color.RED);
         //ByteArrayOutputStream os = new ByteArrayOutputStream();
         Bitmap graphImage = this.graph.takeSnapshot();
-        canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),  new Rect(0, 0, 100, 100), null);
+        canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),
+                new Rect(0, 0, 100, 100), null);
         for (Pain p : staticData) {
             String output = (p.getTimeAsFormattedString()
                     + "\nComment: "
@@ -397,22 +428,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Reminder
 
-    /**
-     * This function starts a repeating alarm, that will, every half hour, call the AlertReceiver.
-     * The AlertReceiver then evaluates whether a notification should be pushed or not.
-     *
-     * @param interval
-     */
-    public void startAlertRecevicerRepeating(long interval){
+    //Reminder
+    public void pushNotification(long time){
+        // If notifications disabled in settings, don't do anything
+        if (!notificationsOn) return;
+
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
+        //c.set(Calendar.HOUR_OF_DAY, hour);
+        //c.set(Calendar.MINUTE, min);
+        //c.set(Calendar.SECOND, sec);
+
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
+        //Each hour evaluate mostRecent before pushing a notification.
+
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
     }
+
 
 }

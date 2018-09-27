@@ -20,6 +20,9 @@ public class AlertReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        // If notifications disabled in settings, don't do anything
+        if (!MainActivity.notificationsOn) return;
+
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if ((Stats.getMostRecent()+wait) < System.currentTimeMillis()) {

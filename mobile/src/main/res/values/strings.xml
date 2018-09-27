@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Pain Tracker</string>
     <string name="title_activity_main">Pain Tracker</string>
-    <string name="hint_word">Comment...</string>
+    <string name="hint_word">Comment…</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">No pain level set. Entry not saved.</string>
     <string name="card_initial_text">Tap a data point to display info or tap the + to add an entry</string>
@@ -11,4 +11,14 @@
     <string name="channelDescription">Helps you remember to log how you are feeling.</string>
     <string name="about_app">Made by:\n\nDan Bent\nSam Fleury\nEmilio McFadzean\n\nFor COSC345\n\n2018 </string>
     <string name="help_dialog">Help message here</string>
+    <string name="pref_notifications">Notifications</string>
+    <string name="pref_notifications_summary">Enable notifications from Pain Tracker</string>
+    <string name="help_desc">Using Pain Tracker is easy!\n\nTo add an entry, just tap the plus button,
+        fill out the information, and tap Save.\n\n\Once you\'ve made an entry,
+        it\'ll be visible along with the rest of your records on the graph screen.
+        You can tap on any entry in the graph to get a better look at its details.
+        (Go to History under the hamburger menu in the top left to get a more in-depth look at your records.)\n\n
+    You can also export your data to a PDF. Just find Export to PDF in the hamburger menu at the top left.\n\n
+    If you run into any problems, or have other feedback, you can get in touch with us at [let\'s make an email address for this].\n\n
+        Thanks for using Pain Tracker!</string>
 </resources>
