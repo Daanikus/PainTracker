@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
     private DrawerLayout mDrawerLayout;
-    private static int count = 0;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -177,14 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // TODO what's this?
-        //Judging from this, cannot access Static Data in the main activity...
-        if(staticData == null){
-            Log.i("Static Data:", "This mfkr is NULL");
-        }
-        Log.i("Static Data:", "This is testing the log of this message... :)");
-
-        startAlertReceiver(AlarmManager.INTERVAL_HOUR);
+        startAlertReceiver(3600000);
 
     }
 
@@ -419,7 +411,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Reminder
+    /**
+     * Starts the AlertReceiver, and repeatedly triggers it at a set time interval. Thus,
+     * potentially triggering a notification (depending on which conditions are satisfied within
+     * the AlertReceiver class.
+     *
+     * @param interval repeating time interval in milliseconds
+     */
     public void startAlertReceiver(long interval){
         // If notifications disabled in settings, don't do anything
         if (!notificationsOn) return;

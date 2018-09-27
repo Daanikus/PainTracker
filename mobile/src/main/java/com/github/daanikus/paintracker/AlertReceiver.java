@@ -2,6 +2,7 @@ package com.github.daanikus.paintracker;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +32,10 @@ public class AlertReceiver extends BroadcastReceiver {
             } else {
                 sendReminder();
             }
+            // Create an Intent for the activity you want to start
+            Intent resultIntent = new Intent(context, NewPainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
+
 
             Notification notification = new NotificationCompat.Builder(context, MyNotificationChannel.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_icon)
@@ -40,6 +45,8 @@ public class AlertReceiver extends BroadcastReceiver {
                 .setOnlyAlertOnce(true)
                 .setVisibility(VISIBILITY_PUBLIC)
                 .setColor(Color.BLUE)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .build();
 
             mNotificationManager.notify(1, notification);
