@@ -35,13 +35,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".AlertReceiver"/>
-        <activity android:name=".NewPainActivity"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".HistoryActivity"
+
+        <receiver android:name=".AlertReceiver" />
+
+        <activity
+            android:name=".NewPainActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".SettingsActivity"
+        <activity
+            android:name=".HistoryActivity"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".StatsActivity"></activity>
     </application>
 
 </manifest>

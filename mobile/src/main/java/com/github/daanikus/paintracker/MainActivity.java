@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        final List<Pain> staticData = null; //TODO what's this?
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getTitle().toString()) {
                             case "Home":
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                break;
+                            case "Stats":
+                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                                Intent statsIntent = new Intent(MainActivity.this, StatsActivity.class);
+                                startActivity(statsIntent);
                                 break;
                             case "Settings":
                                 Toast.makeText(getApplicationContext(),"Notif is " + notificationsOn, Toast.LENGTH_SHORT).show();
