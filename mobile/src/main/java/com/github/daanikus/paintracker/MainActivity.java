@@ -286,9 +286,10 @@ public class MainActivity extends AppCompatActivity {
         for (Pain p : pains) {
             Stats.updateStats(p);
             Date date = new Date(p.getTimestamp());
-            if (p.getTimestamp() > Stats.getMostRecent()) {
-                Stats.setMostRecent(p.getTimestamp());
+            if (p.getTimestamp() > Stats.getMostRecentEntryTime()) {
+                Stats.setMostRecentEntryTime(p.getTimestamp());
             }
+            Stats.setMostRecentEntryValue(p.getPainLevel());
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
         }

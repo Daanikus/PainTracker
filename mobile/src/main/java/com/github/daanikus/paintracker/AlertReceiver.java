@@ -26,7 +26,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if ((Stats.getMostRecent()+wait) < System.currentTimeMillis()) {
+        if ((Stats.getMostRecentEntryTime()+wait) < System.currentTimeMillis()) {
             if(Stats.getTotalEntries() == 0) {
                 sendWelcome();
             } else {

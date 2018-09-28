@@ -4,7 +4,8 @@ import android.util.Log;
 
 //This class provides various statistics, that are derived from the user's input data
 public class Stats {
-    private static long mostRecent = 0;
+    private static long mostRecentEntryTime = 0;
+    private static int mostRecentEntryValue = -1;
     private static int totalEntries = 0;
     private static int totalPain = 0;
     private static int avePainLevel = 0;
@@ -15,12 +16,20 @@ public class Stats {
 
     }
 
-    public static void setMostRecent(long mostRecent) {
-        Stats.mostRecent = mostRecent;
+    public static void setMostRecentEntryTime(long mostRecent) {
+        Stats.mostRecentEntryTime = mostRecent;
     }
 
-    public static long getMostRecent() {
-        return mostRecent;
+    public static long getMostRecentEntryTime() {
+        return mostRecentEntryTime;
+    }
+
+    public static void setMostRecentEntryValue(int mostRecentEntryValue) {
+        Stats.mostRecentEntryValue = mostRecentEntryValue;
+    }
+
+    public static int getMostRecentEntryValue() {
+        return mostRecentEntryValue;
     }
 
     public static void setTotalEntries(int totalEntries) {
@@ -32,8 +41,8 @@ public class Stats {
     }
 
     public static void updateStats(Pain pain){
-        if (pain.getTimestamp() > mostRecent) {
-            mostRecent = pain.getTimestamp();
+        if (pain.getTimestamp() > mostRecentEntryTime) {
+            mostRecentEntryTime = pain.getTimestamp();
         }
         totalEntries++;
 
@@ -51,7 +60,7 @@ public class Stats {
     }
 
     public static void printStats(){
-        Log.i("Stats", "mostRecent "+mostRecent+"\n"+
+        Log.i("Stats", "mostRecent "+mostRecentEntryTime+"\n"+
                                 "totalEntries "+totalEntries+"\n"+
                                 "totalPain "+totalPain+"\n"+
                                 "avePain "+avePainLevel+"\n"+

@@ -21,4 +21,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:id="@+id/mostRecent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:text="Most Recent" />
+
 </GridLayout>
