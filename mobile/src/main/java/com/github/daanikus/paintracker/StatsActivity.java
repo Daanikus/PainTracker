@@ -15,7 +15,18 @@ public class StatsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final TextView mostRecent = (TextView) findViewById(R.id.mostRecent);
+        TextView mostRecent = (TextView) findViewById(R.id.mostRecent);
         mostRecent.setText("Most Recent: "+Stats.getMostRecentEntryValue());
+
+        TextView maxPain = (TextView) findViewById(R.id.maxPain);
+        maxPain.setText("Maximum: "+Stats.getMax());
+
+        TextView minPain = (TextView) findViewById(R.id.minPain);
+        minPain.setText("Minimum: "+Stats.getMin());
+
+        TextView avePain = (TextView) findViewById(R.id.avePain);
+        avePain.setText("Average: "+Stats.getAvePainLevel());
+
+
     }
 }

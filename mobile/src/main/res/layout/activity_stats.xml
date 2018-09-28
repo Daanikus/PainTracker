@@ -22,13 +22,55 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:id="@+id/mostRecent"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:layout_column="0"
         android:layout_row="1"
-        android:text="Most Recent" />
+        android:textSize="20dp"
+        android:text="Statistics from first day of use" />
+
+    <TextView
+        android:id="@+id/mostRecent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_column="0"
+        android:layout_row="2"
+        android:text="Most Recent Entry Value" />
+
+
+    <TextView
+        android:id="@+id/maxPain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_column="0"
+        android:layout_row="3"
+        android:text="Maximum Pain Value" />
+
+    <TextView
+        android:id="@+id/minPain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_column="0"
+        android:layout_row="4"
+        android:text="Minimum Pain Value" />
+
+    <TextView
+        android:id="@+id/avePain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_column="0"
+        android:layout_row="5"
+        android:text="Average Pain Level" />
 
 </GridLayout>

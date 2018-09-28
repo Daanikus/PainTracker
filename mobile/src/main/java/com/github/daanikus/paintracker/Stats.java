@@ -32,8 +32,16 @@ public class Stats {
         return mostRecentEntryValue;
     }
 
-    public static void setTotalEntries(int totalEntries) {
-        Stats.totalEntries = totalEntries;
+    public static int getMax() {
+        return max;
+    }
+
+    public static int getMin() {
+        return min;
+    }
+
+    public static int getAvePainLevel() {
+        return avePainLevel;
     }
 
     public static int getTotalEntries() {
