@@ -100,27 +100,6 @@ public class NewPainActivity extends AppCompatActivity {
             }
         });
 
-        /*final ImageView ivImage = findViewById(R.id.human_image_view);
-        final Bitmap bitmap = ((BitmapDrawable)ivImage.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
-        ivImage.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                int touchX = (int)(event.getX());
-                int touchY = (int)(event.getY());
-                Canvas canvas = new Canvas(bitmap);
-                Paint paint = new Paint();
-                paint.setColor(Color.GREEN);
-                canvas.drawCircle(touchX, touchY, 20, paint);    // for circle dot
-                //canvas.drawPoint(touchX, touchY, paint);  // for single point
-                ivImage.setImageBitmap(bitmap);
-                ivImage.invalidate();
-                Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });**/
-
         /*
           Saves a new pain entry to the database.
          */

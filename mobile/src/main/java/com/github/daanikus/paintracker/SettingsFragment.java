@@ -18,10 +18,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("pref_notif")) {
-            //Preference pref = findPreference(key);
-            //pref.setSummary(sharedPreferences.getString(key, ""));
             MainActivity.notificationsOn = sharedPreferences.getBoolean("pref_notif", true);
-            Toast.makeText(getView().getContext(), "Listener noted change", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -147,12 +147,10 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 break;
                             case "Settings":
-                                Toast.makeText(getApplicationContext(),"Notif is " + notificationsOn, Toast.LENGTH_SHORT).show();
                                 Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                                 startActivity(settingsIntent);
                                 break;
                             case "Export to PDF":
-                                // Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                                 createPdf();
                                 break;
                             case "Help":
