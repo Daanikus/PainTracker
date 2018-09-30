@@ -19,6 +19,18 @@
         You can tap on any entry in the graph to get a better look at its details.
         (Go to History under the hamburger menu in the top left to get a more in-depth look at your records.)\n\n
     You can also export your data to a PDF. Just find Export to PDF in the hamburger menu at the top left.\n\n
-    If you run into any problems, or have other feedback, you can get in touch with us at [let\'s make an email address for this].\n\n
-        Thanks for using Pain Tracker!</string><!-- TODO add email address -->
+    If you run into any problems, or have other feedback, you can get in touch with us at paintrackerapphelp@gmail.com.\n\n
+        Thanks for using Pain Tracker!</string>
+    <string name="slide1_title">Using Pain Tracker is easy!</string>
+    <string name="slide1_desc">First, tap on the + icon to add an entry…</string>
+
+    <string name="slide2_title">Adding an Entry</string>
+    <string name="slide2_desc">Fill in the information, then press SAVE</string>
+
+    <string name="slide3_title">Viewing Entries</string>
+    <string name="slide3_desc">Once you’ve added an entry, it’ll appear on the graph on the main page.
+Scroll through your entries or tap on an entry to see a more detailed view.</string>
+
+    <string name="slide4_title">Navigation</string>
+    <string name="slide4_desc">Tap the hamburger icon in the top right to export your data as a PDF, adjust your settings, or to find out how you can help us improve the app!</string>
 </resources>

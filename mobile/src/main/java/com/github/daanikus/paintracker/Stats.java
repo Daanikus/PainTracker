@@ -15,6 +15,12 @@ public class Stats {
 
     }
 
+    public static int getMax() { return max; }
+
+    public static int getMin() { return min; }
+
+    public static int getAvePainLevel() { return avePainLevel;  }
+
     public static void setMostRecent(long mostRecent) {
         Stats.mostRecent = mostRecent;
     }
@@ -58,5 +64,6 @@ public class Stats {
                                 "minimum "+min+"\n"+
                                 "maximum "+max+"\n");
     }
+
 
 }

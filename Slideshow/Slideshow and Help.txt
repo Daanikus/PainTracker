@@ -3,6 +3,7 @@ Using Pain Tracker is easy!
 First, tap on the + icon to add an entry…
 
 02.png:
+Adding an Entry
 Fill in the information, then press SAVE
 
 03.png:
@@ -10,7 +11,7 @@ Once you’ve added an entry, it’ll appear on the graph on the main page.
 Tap on an entry to see a more detailed view.
 
 04.png:
-Tap the hamburger icon in the top right to export your data as a PDF, adjust your settings, or to find out how you can help us improve the app
+Tap the hamburger icon in the top right to export your data as a PDF, adjust your settings, or to find out how you can help us improve the app!
 
 New help text:
 

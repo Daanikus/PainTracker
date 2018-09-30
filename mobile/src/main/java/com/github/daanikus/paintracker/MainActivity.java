@@ -132,6 +132,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        SharedPreferences sp = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        // if (!sp.getBoolean("first", false)) { TODO: UNCOMMENT THIS LINE FOR RELEASE
+        if (true) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("first", true);
+            editor.apply();
+            Intent intent = new Intent(this, IntroActivity.class); // Call the AppIntro java class
+            startActivity(intent);
+        }
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -143,8 +153,9 @@ public class MainActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawers();
 
                         switch (menuItem.getTitle().toString()) {
-                            case "Home":
-                                Toast.makeText(getApplicationContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                            case "Stats":
+                                Intent statsIntent = new Intent(MainActivity.this, StatsActivity.class);
+                                startActivity(statsIntent);
                                 break;
                             case "Settings":
                                 Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -343,11 +354,7 @@ public class MainActivity extends AppCompatActivity {
                                         + "\nComment: "
                                         + p.getComment()
                                         + "\nPain Level: "
-                                        + p.getPainLevel()
-                                        + "\nX: "
-                                        + p.getLocationX()
-                                        + "  Y: "
-                                        + p.getLocationY());
+                                        + p.getPainLevel());
 
                         Log.i("Static Data:", "Timestamp - "+p.getTimestamp());
                         break;
@@ -370,12 +377,9 @@ public class MainActivity extends AppCompatActivity {
         PdfDocument.Page page = document.startPage(pageInfo);
 
         // draw something on the page
-        //View content = this.getContentView();
-        //content.draw(page.getCanvas());
         Canvas canvas = page.getCanvas();
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        //ByteArrayOutputStream os = new ByteArrayOutputStream();
         Bitmap graphImage = this.graph.takeSnapshot();
         canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),
                 new Rect(0, 0, 100, 100), null);
@@ -405,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
             success = true;
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(),
+            Toast.makeText(this, "File permissions off. Please enable storage access for this app and try again.",
                     Toast.LENGTH_LONG).show();
         }
         // close the document
@@ -434,9 +438,6 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(time);
-        //c.set(Calendar.HOUR_OF_DAY, hour);
-        //c.set(Calendar.MINUTE, min);
-        //c.set(Calendar.SECOND, sec);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
@@ -444,8 +445,6 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
         //Each hour evaluate mostRecent before pushing a notification.
-
-        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
     }
 

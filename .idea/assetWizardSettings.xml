@@ -18,8 +18,8 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="$USER_HOME$/Pictures/human_silhouette_no_bg.png" />
-                                      <entry key="foregroundLayerName" value="human_no_bg" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/Slideshow/01.png" />
+                                      <entry key="foregroundLayerName" value="slide1" />
                                     </map>
                                   </option>
                                 </PersistentState>

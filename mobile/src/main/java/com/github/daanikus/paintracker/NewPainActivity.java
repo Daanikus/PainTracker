@@ -49,6 +49,7 @@ public class NewPainActivity extends AppCompatActivity {
         mEditPainView = findViewById(R.id.edit_pain);
         seekBar = findViewById(R.id.pain_seekbar);
         final TextView seekTextView = findViewById(R.id.new_pain_seek_text_view);
+        mEditPainView.setTextColor(Color.BLACK);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
