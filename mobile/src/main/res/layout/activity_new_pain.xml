@@ -59,13 +59,13 @@
         android:textSize="18sp"
         android:textColorHint="@color/black"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:padding="@dimen/small_padding"
-        android:id="@+id/human_image_view"
-        android:paddingHorizontal="40dp"
-        android:src="@mipmap/human_no_bg"/>
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:padding="@dimen/small_padding"-->
+        <!--android:id="@+id/human_image_view"-->
+        <!--android:paddingHorizontal="40dp"-->
+        <!--android:src="@mipmap/human_no_bg"/>-->
 
     <Space
         android:layout_height="25dp"/>

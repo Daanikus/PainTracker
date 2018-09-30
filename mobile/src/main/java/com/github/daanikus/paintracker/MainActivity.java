@@ -364,35 +364,46 @@ public class MainActivity extends AppCompatActivity {
         PdfDocument.PageInfo pageInfo =
                 new PdfDocument.PageInfo.Builder(595, 842, 1).create();
 
+
         // start a page
         PdfDocument.Page page = document.startPage(pageInfo);
 
         // draw something on the page
         Canvas canvas = page.getCanvas();
         Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        Bitmap graphImage = this.graph.takeSnapshot();
-        canvas.drawBitmap(graphImage, new Rect(0, 0, 100, 100),
-                new Rect(0, 0, 100, 100), null);
+        paint.setColor(Color.BLACK);
+        int y = 100;
+        int index = 0;
         for (Pain p : staticData) {
-            String output = (p.getTimeAsFormattedString()
-                    + "\nComment: "
+            // Need to make a new page for each 11 entries
+            if (index % 11 == 0 && index != 0) {
+                document.finishPage(page);
+                page = document.startPage(pageInfo);
+                canvas = page.getCanvas();
+                paint = new Paint();
+                paint.setColor(Color.BLACK);
+                y = 100;
+            }
+            String output = ("Comment: "
                     + p.getComment()
                     + "\nPain Level: "
                     + p.getPainLevel()
-                    + "\nX: "
-                    + p.getLocationX()
-                    + "  Y: "
-                    + p.getLocationY());
-            canvas.drawText(output, 100, 100, paint);
+                    + "\n");
+            canvas.drawText(p.getTimeAsFormattedString(), 100, y, paint);
+            canvas.drawText(output, 100, y + 20, paint);
+            canvas.drawText("--------------------", 100, y + 40, paint);
+            y += 60;
+            index++;
         }
         document.finishPage(page);
 
 
 
+
         // write the document content
         String targetPdf = Environment.getExternalStorageDirectory().getPath();
-        File filePath = new File(targetPdf + "/test.pdf");
+        Date currentTime = Calendar.getInstance().getTime();
+        File filePath = new File(targetPdf + "/Download/" + currentTime.toString() + ".pdf");
         Boolean success = false;
         try {
             document.writeTo(new FileOutputStream(filePath));

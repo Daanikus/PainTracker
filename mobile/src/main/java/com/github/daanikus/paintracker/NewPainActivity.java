@@ -73,33 +73,33 @@ public class NewPainActivity extends AppCompatActivity {
           image. The most recent tap, before the save button is pushed, is recorded.
          */
 
-        final ImageView image = findViewById(R.id.human_image_view);
-        final Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
-        image.setOnTouchListener(new View.OnTouchListener() { // TODO work out the performClick override
-            long lastClicked = System.currentTimeMillis();
-            final long DEBOUNCE_TIME = 1000;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                if (System.currentTimeMillis() - lastClicked > DEBOUNCE_TIME) {
-                    Paint paint = new Paint();
-                    paint.setColor(Color.GREEN);
-                    Canvas canvas = new Canvas(bitmap);
-                    int touchX = (int)(event.getX());
-                    int touchY = (int)(event.getY());
-                    int[] imageLocation = new int[2];
-                    v.getLocationOnScreen(imageLocation);
-                    painLocation[0] = touchX - imageLocation[0];
-                    painLocation[1] = touchY - imageLocation[1];
-                    canvas.drawCircle(touchX, touchY, 20, paint);    // for circle dot
-                    Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
-                    image.setImageBitmap(bitmap);
-                    image.invalidate();
-                }
-                lastClicked = System.currentTimeMillis();
-                return true;
-            }
-        });
+//        final ImageView image = findViewById(R.id.human_image_view);
+//        final Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+//        image.setOnTouchListener(new View.OnTouchListener() { // TODO work out the performClick override
+//            long lastClicked = System.currentTimeMillis();
+//            final long DEBOUNCE_TIME = 1000;
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//
+//                if (System.currentTimeMillis() - lastClicked > DEBOUNCE_TIME) {
+//                    Paint paint = new Paint();
+//                    paint.setColor(Color.GREEN);
+//                    Canvas canvas = new Canvas(bitmap);
+//                    int touchX = (int)(event.getX());
+//                    int touchY = (int)(event.getY());
+//                    int[] imageLocation = new int[2];
+//                    v.getLocationOnScreen(imageLocation);
+//                    painLocation[0] = touchX - imageLocation[0];
+//                    painLocation[1] = touchY - imageLocation[1];
+//                    canvas.drawCircle(touchX, touchY, 20, paint);    // for circle dot
+//                    Toast.makeText(getApplicationContext(), "Location Recorded", Toast.LENGTH_SHORT).show();
+//                    image.setImageBitmap(bitmap);
+//                    image.invalidate();
+//                }
+//                lastClicked = System.currentTimeMillis();
+//                return true;
+//            }
+//        });
 
         /*
           Saves a new pain entry to the database.
@@ -120,8 +120,8 @@ public class NewPainActivity extends AppCompatActivity {
                     b.putString("COMMENT", painComment);
                     b.putInt("PAIN_LEVEL", progress);
                     b.putLong("TIMESTAMP", time);
-                    b.putInt("LOCATION_X", painLocation[0]);
-                    b.putInt("LOCATION_Y", painLocation[1]);
+                    b.putInt("LOCATION_X", 0);
+                    b.putInt("LOCATION_Y", 0);
                     replyIntent.putExtras(b);
                     setResult(RESULT_OK, replyIntent);
                 }
