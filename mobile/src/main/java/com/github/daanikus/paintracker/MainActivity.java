@@ -133,8 +133,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         SharedPreferences sp = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        // if (!sp.getBoolean("first", false)) { TODO: UNCOMMENT THIS LINE FOR RELEASE
-        if (true) {
+        if (!sp.getBoolean("first", false)) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean("first", true);
             editor.apply();
@@ -165,16 +164,8 @@ public class MainActivity extends AppCompatActivity {
                                 createPdf();
                                 break;
                             case "Help":
-                                AlertDialog helpDialog = new AlertDialog.Builder(MainActivity.this).create();
-                                helpDialog.setTitle("Help");
-                                helpDialog.setMessage(getString(R.string.help_desc));
-                                helpDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                helpDialog.show();
+                                Intent intent = new Intent(MainActivity.this, IntroActivity.class); // Call the AppIntro java class
+                                startActivity(intent);
                                 break;
                             case "About":
                                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
