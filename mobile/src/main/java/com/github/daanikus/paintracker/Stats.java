@@ -1,7 +1,5 @@
 package com.github.daanikus.paintracker;
 
-import android.util.Log;
-
 /**
  * This class provides various statistics, that are derived from the user's input data that
  * accumulates over time.
@@ -14,10 +12,6 @@ public class Stats {
     private static int min = -1;
     private static int max = 0;
 
-
-    public Stats() {
-
-    }
 
     public static void setMax(int painLevel) {
         if(painLevel > getMax()) {
@@ -39,18 +33,13 @@ public class Stats {
         return min;
     }
 
-    public static float getAvePainLevel() {
-        return avePainLevel;
-    }
+    public static float getAvePainLevel() { return avePainLevel; }
 
     public static void setMostRecent(long mostRecent) {
         Stats.mostRecent = mostRecent;
     }
 
-    public static long getMostRecent() {
-
-        return mostRecent;
-    }
+    public static long getMostRecent() { return mostRecent; }
 
     public static void setTotalEntries(int totalEntries) {
         Stats.totalEntries = totalEntries;
@@ -60,14 +49,9 @@ public class Stats {
         return totalEntries;
     }
 
-    public static int getTotalPain() {
-        return totalPain;
-    }
-
     public static void setTotalPain(int totalPain) {
         Stats.totalPain = totalPain;
     }
-
 
     public static void updateAvePainLevel() {
         Stats.avePainLevel = totalPain/totalEntries;

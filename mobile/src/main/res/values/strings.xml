@@ -30,8 +30,11 @@
 
     <string name="slide3_title">Viewing Entries</string>
     <string name="slide3_desc">Once you’ve added an entry, it’ll appear on the graph on the main page.
-Scroll through your entries or tap on an entry to see a more detailed view.</string>
+Scroll through your entries or tap on an entry to see a more detailed view</string>
 
     <string name="slide4_title">Navigation</string>
-    <string name="slide4_desc">Tap the hamburger icon in the top right to export your data as a PDF, adjust your settings, or to find out how you can help us improve the app!</string>
+    <string name="slide4_desc">Tap the hamburger icon in the top right to view statistics, access app settings, or display this help slideshow again</string>
+
+    <string name="slide5_title">Navigation</string>
+    <string name="slide5_desc">Tap the options menu to export your data to PDF or find out more about the app</string>
 </resources>

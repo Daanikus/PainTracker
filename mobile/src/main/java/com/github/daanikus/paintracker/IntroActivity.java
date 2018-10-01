@@ -5,12 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-
-import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntro2Fragment;
-import com.github.paolorotolo.appintro.AppIntroFragment;
-import com.github.paolorotolo.appintro.model.SliderPage;
+
+/**
+ * This class utilises the AppIntro library to create a 'Help/How-to' slideshow for first launch
+ * and is shown again if the user selects 'Help' from the menu
+ */
 
 public class IntroActivity extends AppIntro2 {
     @Override
@@ -21,6 +22,7 @@ public class IntroActivity extends AppIntro2 {
         addSlide(AppIntro2Fragment.newInstance(getString(R.string.slide2_title), getString(R.string.slide2_desc), R.drawable.slide02, Color.BLACK));
         addSlide(AppIntro2Fragment.newInstance(getString(R.string.slide3_title), getString(R.string.slide3_desc), R.drawable.slide03, Color.BLACK));
         addSlide(AppIntro2Fragment.newInstance(getString(R.string.slide4_title), getString(R.string.slide4_desc), R.drawable.slide04, Color.BLACK));
+        addSlide(AppIntro2Fragment.newInstance(getString(R.string.slide5_title), getString(R.string.slide5_desc), R.drawable.slide05, Color.BLACK));
 
         // OPTIONAL METHODS
         // Override bar/separator color.

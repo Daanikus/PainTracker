@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
+/**
+ * Settings fragment that displays the settings menu.
+ */
+
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
