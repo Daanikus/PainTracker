@@ -316,8 +316,13 @@ public class MainActivity extends AppCompatActivity {
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
 
         this.graph.removeAllSeries();
+        int totalPainEntries = 0;
+        int totalPainLevel = 0;
         for (Pain p : pains) {
-            Stats.updateStats(p);
+            totalPainEntries++;
+            totalPainLevel += p.getPainLevel();
+            Stats.setMax(p.getPainLevel());
+            Stats.setMin(p.getPainLevel());
             Date date = new Date(p.getTimestamp());
             if (p.getTimestamp() > Stats.getMostRecent()) {
                 Stats.setMostRecent(p.getTimestamp());
@@ -325,7 +330,11 @@ public class MainActivity extends AppCompatActivity {
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
         }
-        Stats.printStats();
+        Stats.setTotalEntries(totalPainEntries);
+        Stats.setTotalPain(totalPainLevel);
+        Stats.updateStats();
+        //count pains to update pains stats...
+
 
 
         series.setColor(getResources().getColor(R.color.colorAccent));

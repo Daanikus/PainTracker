@@ -8,24 +8,43 @@ public class Stats {
     private static int totalEntries = 0;
     private static int totalPain = 0;
     private static float avePainLevel = 0;
-    private static int min = 0;
+    private static int min = -1;
     private static int max = 0;
 
     public Stats() {
 
     }
 
-    public static int getMax() { return max; }
+    public static void setMax(int painLevel) {
+        if(painLevel > getMax()) {
+            Stats.max = painLevel;
+        }
+    }
 
-    public static int getMin() { return min; }
+    public static int getMax() {
+        return max;
+    }
 
-    public static float getAvePainLevel() { return avePainLevel;  }
+    public static void setMin(int painLevel) {
+        if (Stats.min == -1 || painLevel <= Stats.min) {
+            Stats.min = painLevel;
+        }
+    }
+
+    public static int getMin() {
+        return min;
+    }
+
+    public static float getAvePainLevel() {
+        return avePainLevel;
+    }
 
     public static void setMostRecent(long mostRecent) {
         Stats.mostRecent = mostRecent;
     }
 
     public static long getMostRecent() {
+
         return mostRecent;
     }
 
@@ -37,33 +56,18 @@ public class Stats {
         return totalEntries;
     }
 
-    public static void updateStats(Pain pain){
-        if (pain.getTimestamp() > mostRecent) {
-            mostRecent = pain.getTimestamp();
-        }
-        totalEntries++;
-
-        totalPain += pain.getPainLevel();
-
-        if(pain.getPainLevel() > max) {
-            max = pain.getPainLevel();
-        }
-
-        if(pain.getPainLevel() <= min || totalEntries == 1) {
-            min = pain.getPainLevel();
-        }
-
-        avePainLevel = totalPain/totalEntries;
+    public static int getTotalPain() {
+        return totalPain;
     }
 
-    public static void printStats(){
-        Log.i("Stats", "mostRecent "+mostRecent+"\n"+
-                                "totalEntries "+totalEntries+"\n"+
-                                "totalPain "+totalPain+"\n"+
-                                "avePain "+avePainLevel+"\n"+
-                                "minimum "+min+"\n"+
-                                "maximum "+max+"\n");
+    public static void setTotalPain(int totalPain) {
+        Stats.totalPain = totalPain;
     }
+
+    public static void updateStats() {
+        Stats.avePainLevel = totalPain/totalEntries;
+    }
+
 
 
 }
