@@ -16,10 +16,25 @@
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="46" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="$PROJECT_DIR$/Slideshow/01.png" />
-                                      <entry key="foregroundLayerName" value="slide1" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/mobile/src/main/res/mipmap-xxxhdpi/human_no_bg.png" />
+                                      <entry key="foregroundLayerName" value="human" />
                                     </map>
                                   </option>
                                 </PersistentState>

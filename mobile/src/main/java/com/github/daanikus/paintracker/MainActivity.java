@@ -1,5 +1,6 @@
 package com.github.daanikus.paintracker;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -24,6 +25,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView graphDayTextView;
     private ArrayList<Pain> staticData;
     private DrawerLayout mDrawerLayout;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 666;
     private static int count = 0;
 
     private AlertReceiver alertReceiver = new AlertReceiver();
@@ -249,6 +253,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    createPdf();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
     /**
      * Creates a graph with various attributes that define how data is displayed and how the user
      * can interact with it.
@@ -363,78 +390,99 @@ public class MainActivity extends AppCompatActivity {
 
     public void createPdf() {
 
-        if (staticData == null || staticData.size() == 0) {
-            Toast.makeText(this, "Add some data to enable PDF generation", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // create a new document
-        PdfDocument document = new PdfDocument();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
-        // crate a page description
-        PdfDocument.PageInfo pageInfo =
-                new PdfDocument.PageInfo.Builder(595, 842, 1).create();
-
-
-        // start a page
-        PdfDocument.Page page = document.startPage(pageInfo);
-
-        // draw something on the page
-        Canvas canvas = page.getCanvas();
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        int y = 100;
-        int index = 0;
-        for (Pain p : staticData) {
-            // Need to make a new page for each 11 entries
-            if (index % 11 == 0 && index != 0) {
-                document.finishPage(page);
-                page = document.startPage(pageInfo);
-                canvas = page.getCanvas();
-                paint = new Paint();
-                paint.setColor(Color.BLACK);
-                y = 100;
-            }
-            String output = ("Comment: "
-                    + p.getComment()
-                    + "\nPain Level: "
-                    + p.getPainLevel()
-                    + "\n");
-            canvas.drawText(p.getTimeAsFormattedString(), 100, y, paint);
-            canvas.drawText(output, 100, y + 20, paint);
-            canvas.drawText("--------------------", 100, y + 40, paint);
-            y += 60;
-            index++;
-        }
-        document.finishPage(page);
-
-        // write the document content
-        String targetPdf = Environment.getExternalStorageDirectory().getPath();
-        Date currentTime = Calendar.getInstance().getTime();
-        File filePath = new File(targetPdf + "/Download/" + currentTime.toString() + ".pdf");
-        Boolean success = false;
-        try {
-            document.writeTo(new FileOutputStream(filePath));
-            Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
-            success = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "File permissions off. Please enable storage access for this app and try again.",
-                    Toast.LENGTH_LONG).show();
-        }
-        // close the document
-        document.close();
-        if (success) {
-            Intent intent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(filePath.toString()));
-            intent.setType("application/pdf");
-            PackageManager pm = getPackageManager();
-            List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-            if (activities.size() > 0) {
-                startActivity(intent);
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
             } else {
-                Toast.makeText(this,
-                        "No PDF viewer found. File saved to storage."
-                        , Toast.LENGTH_LONG).show();
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+
+        } else {
+
+            // create a new document
+            PdfDocument document = new PdfDocument();
+
+            // crate a page description
+            PdfDocument.PageInfo pageInfo =
+                    new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+
+
+            // start a page
+            PdfDocument.Page page = document.startPage(pageInfo);
+
+            // draw something on the page
+            Canvas canvas = page.getCanvas();
+            Paint paint = new Paint();
+            paint.setColor(Color.BLACK);
+            int y = 100;
+            int index = 0;
+            for (Pain p : staticData) {
+                // Need to make a new page for each 11 entries
+                if (index % 11 == 0 && index != 0) {
+                    document.finishPage(page);
+                    page = document.startPage(pageInfo);
+                    canvas = page.getCanvas();
+                    paint = new Paint();
+                    paint.setColor(Color.BLACK);
+                    y = 100;
+                }
+                String output = ("Comment: "
+                        + p.getComment()
+                        + "\nPain Level: "
+                        + p.getPainLevel()
+                        + "\n");
+                canvas.drawText(p.getTimeAsFormattedString(), 100, y, paint);
+                canvas.drawText(output, 100, y + 20, paint);
+                canvas.drawText("--------------------", 100, y + 40, paint);
+                y += 60;
+                index++;
+            }
+            document.finishPage(page);
+
+            // write the document content
+            String targetPdf = Environment.getExternalStorageDirectory().getPath();
+            Date currentTime = Calendar.getInstance().getTime();
+            File filePath = new File(targetPdf + "/Download/" + currentTime.toString() + ".pdf");
+            Boolean success = false;
+            try {
+                document.writeTo(new FileOutputStream(filePath));
+                Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+                success = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "File permissions off. Please enable storage access for this app and try again.",
+                        Toast.LENGTH_LONG).show();
+            }
+            // close the document
+            document.close();
+            if (success) {
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(filePath.toString()));
+                intent.setType("application/pdf");
+                PackageManager pm = getPackageManager();
+                List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+                if (activities.size() > 0) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this,
+                            "No PDF viewer found. File saved to storage."
+                            , Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
