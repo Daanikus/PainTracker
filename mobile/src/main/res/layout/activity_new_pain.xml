@@ -20,7 +20,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
     </android.support.design.widget.AppBarLayout>
-
+    <Space android:layout_height="100px"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,11 +35,13 @@
         android:layout_width="350dp"
         android:scrollbarSize="@dimen/small_padding"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:max="10"
         android:progressBackgroundTint="@color/black"
         />
 
+
+    <Space android:layout_height="100px"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,8 +69,7 @@
         <!--android:paddingHorizontal="40dp"-->
         <!--android:src="@mipmap/human_no_bg"/>-->
 
-    <Space
-        android:layout_height="25dp"/>
+    <Space android:layout_height="300px"/>
     <Button
         android:id="@+id/button_save"
         android:layout_width="150dp"

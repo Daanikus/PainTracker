@@ -7,7 +7,7 @@ public class Stats {
     private static long mostRecent = 0;
     private static int totalEntries = 0;
     private static int totalPain = 0;
-    private static int avePainLevel = 0;
+    private static float avePainLevel = 0;
     private static int min = 0;
     private static int max = 0;
 
@@ -19,7 +19,7 @@ public class Stats {
 
     public static int getMin() { return min; }
 
-    public static int getAvePainLevel() { return avePainLevel;  }
+    public static float getAvePainLevel() { return avePainLevel;  }
 
     public static void setMostRecent(long mostRecent) {
         Stats.mostRecent = mostRecent;

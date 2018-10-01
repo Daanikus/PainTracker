@@ -20,7 +20,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
     </android.support.design.widget.AppBarLayout>
-
+    <Space android:layout_height="100px"/>
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -30,7 +30,9 @@
         android:layout_column="0"
         android:layout_row="1"
         android:textSize="20dp"
-        android:text="Statistics from first day of use" />
+        android:text="Statistics from Present Data" />
+
+    <Space android:layout_height="100px"/>
 
     <TextView
         android:id="@+id/mostRecent"
@@ -72,5 +74,15 @@
         android:layout_column="0"
         android:layout_row="5"
         android:text="Average Pain Level" />
+
+    <TextView
+        android:id="@+id/totalEntries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:layout_column="0"
+        android:layout_row="6"
+        android:text="Total Entries"/>
 
 </GridLayout>

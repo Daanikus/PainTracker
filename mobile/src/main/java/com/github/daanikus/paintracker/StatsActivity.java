@@ -33,6 +33,9 @@ public class StatsActivity extends AppCompatActivity {
         TextView avePain = (TextView) findViewById(R.id.avePain);
         avePain.setText("Average: "+Stats.getAvePainLevel());
 
+        TextView totalEntries = (TextView) findViewById(R.id.totalEntries);
+        totalEntries.setText("Total Entries: "+Stats.getTotalEntries());
+
 
     }
 }
