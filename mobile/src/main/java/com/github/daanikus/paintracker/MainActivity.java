@@ -30,6 +30,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -46,6 +48,8 @@ import com.jjoe64.graphview.series.Series;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        final List<Pain> staticData = null; //TODO what's this?
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawers();
 
                         switch (menuItem.getTitle().toString()) {
-                            case "Stats":
+                            case "Statistics":
                                 Intent statsIntent = new Intent(MainActivity.this, StatsActivity.class);
                                 startActivity(statsIntent);
                                 break;
@@ -160,24 +162,9 @@ public class MainActivity extends AppCompatActivity {
                                 Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                                 startActivity(settingsIntent);
                                 break;
-                            case "Export to PDF":
-                                createPdf();
-                                break;
                             case "Help":
                                 Intent intent = new Intent(MainActivity.this, IntroActivity.class); // Call the AppIntro java class
                                 startActivity(intent);
-                                break;
-                            case "About":
-                                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                                alertDialog.setTitle("About");
-                                alertDialog.setMessage(getString(R.string.about_app));
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                alertDialog.show();
                                 break;
                         }
 
@@ -185,16 +172,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // TODO what's this?
-        //Judging from this, cannot access Static Data in the main activity...
-        if(staticData == null){
-            Log.i("Static Data:", "This mfkr is NULL");
-        }
-        Log.i("Static Data:", "This is testing the log of this message... :)");
 
         pushNotification(System.currentTimeMillis()+WAIT);
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
 
     public void updateStaticData(List<Pain> pains) {
         this.staticData = (ArrayList) pains;
@@ -205,6 +194,22 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.about_options:
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle("About");
+
+                alertDialog.setMessage(getString(R.string.about_app) + " " + getString(R.string.git_url));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                return true;
+            case R.id.export_to_pdf_options:
+                createPdf();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -357,6 +362,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createPdf() {
+
+        if (staticData == null || staticData.size() == 0) {
+            Toast.makeText(this, "Add some data to enable PDF generation", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // create a new document
         PdfDocument document = new PdfDocument();
 
@@ -396,9 +406,6 @@ public class MainActivity extends AppCompatActivity {
             index++;
         }
         document.finishPage(page);
-
-
-
 
         // write the document content
         String targetPdf = Environment.getExternalStorageDirectory().getPath();
