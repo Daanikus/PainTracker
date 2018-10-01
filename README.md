@@ -14,7 +14,7 @@ fill out the information, and tap Save. Once you've made an entry,
 it'll be visible along with the rest of your records on the graph screen.
 You can tap on any entry in the graph to get a better look at its details.
 (Go to History under the hamburger menu in the top left to get a more in-depth look at your records.)
-You can also export your data to a PDF. Just find Export to PDF in the hamburger menu at the top left.
+You can also export your data to a PDF. Just find Export to PDF in the options menu on the top right.
 
 ## Contact
 
