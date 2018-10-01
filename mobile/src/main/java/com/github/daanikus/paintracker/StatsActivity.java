@@ -8,6 +8,10 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * This activity presents the various statistics, that are provided by the Stats class, in a  user
+ * friendly format.
+ */
 public class StatsActivity extends AppCompatActivity {
 
     @Override

@@ -26,17 +26,9 @@ public class MyNotificationChannel extends Application {
 
             channel1.setDescription("Test");
 
-            android.app.NotificationChannel channel2 = new android.app.NotificationChannel(
-                    CHANNEL_2_ID,
-                    "Channel 2",
-                    NotificationManager.IMPORTANCE_LOW
-            );
-
-            channel1.setDescription("Channel 2");
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel1);
-            manager.createNotificationChannel(channel2);
         }
     }
 }
