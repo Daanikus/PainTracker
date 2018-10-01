@@ -12,11 +12,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,8 +49,6 @@ import com.jjoe64.graphview.series.Series;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,13 +74,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Pain> staticData;
     private DrawerLayout mDrawerLayout;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 666;
-    private static int count = 0;
-    private AlertReceiver alertReceiver = new AlertReceiver();
-    //time in milliseconds
-    private static long mostRecent = 0;
-
-    //One minute in milliseconds
-    private static final long WAIT = 0;
 
     /**
      * Initializes the users home screen with a graph and button to add a new pain entry. Updates
@@ -176,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        pushNotification(System.currentTimeMillis()+WAIT);
+        startAlertReceiver(3600000);
 
     }
 
@@ -330,10 +319,8 @@ public class MainActivity extends AppCompatActivity {
         for (Pain p : pains) {
             Stats.updateStats(p);
             Date date = new Date(p.getTimestamp());
-            if (p.getTimestamp() > mostRecent) {
-                mostRecent = p.getTimestamp();
-                alertReceiver.setMostRecent(mostRecent);
-                Log.i("mostRecent",""+ mostRecent);
+            if (p.getTimestamp() > Stats.getMostRecent()) {
+                Stats.setMostRecent(p.getTimestamp());
             }
             series.appendData(new DataPoint(date, p.getPainLevel()),
                     true, 10);
@@ -493,21 +480,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Reminder
-    public void pushNotification(long time){
+    /**
+     * Starts an alarm, that calls the onReceive method of the AlertReceiver class at a defined
+     * interval.
+     *
+     * @param interval time in milliseconds
+     */
+    public void startAlertReceiver(long interval){
         // If notifications disabled in settings, don't do anything
         if (!notificationsOn) return;
-
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(time);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
 
-        //Each hour evaluate mostRecent before pushing a notification.
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
     }
 
 
