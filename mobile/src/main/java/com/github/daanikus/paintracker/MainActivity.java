@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        int hourlyInterval = 3600000;
+        int hourlyInterval = 3600000; //time in milliseconds
         startAlertReceiver(hourlyInterval);
 
     }

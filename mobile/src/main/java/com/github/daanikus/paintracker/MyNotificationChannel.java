@@ -7,7 +7,6 @@ import android.os.Build;
 
 public class MyNotificationChannel extends Application {
     public static final String CHANNEL_1_ID = "channel1";
-    public static final String CHANNEL_2_ID = "channel2";
 
     @Override
     public void onCreate(){
@@ -24,7 +23,7 @@ public class MyNotificationChannel extends Application {
                     NotificationManager.IMPORTANCE_HIGH
             );
 
-            channel1.setDescription("Test");
+            channel1.setDescription("Notifications of high importance.");
 
 
             NotificationManager manager = getSystemService(NotificationManager.class);

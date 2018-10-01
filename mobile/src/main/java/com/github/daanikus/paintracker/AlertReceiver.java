@@ -7,20 +7,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import static android.app.Notification.VISIBILITY_PUBLIC;
 
+/**
+ * Notifications are sent depending on whether or not they satisfy various conditions in the
+ * onReceive method. These conditions also determine what type of notification the user may receive.
+ */
 public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
     private static String title = "";
     private static String content = "";
-    private static long wait = 43200000; //twelve hours
-    private static int count = 0;
+    private static long wait = 43200000; //twelve hours in milliseconds
 
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.i("Notification", "onReceive called.");
         // If notifications disabled in settings, don't do anything
         if (!MainActivity.notificationsOn) return;
 
@@ -44,7 +49,8 @@ public class AlertReceiver extends BroadcastReceiver {
                 .build();
 
             mNotificationManager.notify(1, notification);
-            count++;
+            Log.i("Notification", "Sent.");
+
         }
     }
 
