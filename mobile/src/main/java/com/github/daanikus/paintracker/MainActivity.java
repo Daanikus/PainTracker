@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Stats.setTotalEntries(totalPainEntries);
         Stats.setTotalPain(totalPainLevel);
-        Stats.updateStats();
+        Stats.updateAvePainLevel();
         //count pains to update pains stats...
 
 

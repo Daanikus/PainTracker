@@ -2,7 +2,10 @@ package com.github.daanikus.paintracker;
 
 import android.util.Log;
 
-//This class provides various statistics, that are derived from the user's input data
+/**
+ * This class provides various statistics, that are derived from the user's input data that
+ * accumulates over time.
+ */
 public class Stats {
     private static long mostRecent = 0;
     private static int totalEntries = 0;
@@ -10,6 +13,7 @@ public class Stats {
     private static float avePainLevel = 0;
     private static int min = -1;
     private static int max = 0;
+
 
     public Stats() {
 
@@ -64,7 +68,8 @@ public class Stats {
         Stats.totalPain = totalPain;
     }
 
-    public static void updateStats() {
+
+    public static void updateAvePainLevel() {
         Stats.avePainLevel = totalPain/totalEntries;
     }
 
