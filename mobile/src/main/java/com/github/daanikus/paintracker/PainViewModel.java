@@ -31,6 +31,5 @@ public class PainViewModel extends AndroidViewModel {
 
     public void insert(Pain pain) { mRepository.insert(pain); }
 
-    //public Pain getPainLatest() { };
 
 }

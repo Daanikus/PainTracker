@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 666;
     private static int count = 0;
-
     private AlertReceiver alertReceiver = new AlertReceiver();
     //time in milliseconds
     private static long mostRecent = 0;
@@ -390,6 +389,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void createPdf() {
 
+        if (staticData == null || staticData.size() == 0) {
+            Toast.makeText(this, "No data. Add some entries to generate a PDF", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -480,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     Toast.makeText(this,
-                            "No PDF viewer found. File saved to storage."
+                            "No PDF viewer found. File saved to Downloads."
                             , Toast.LENGTH_LONG).show();
                 }
             }
