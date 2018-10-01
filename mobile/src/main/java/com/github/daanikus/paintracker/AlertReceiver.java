@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import static android.app.Notification.VISIBILITY_PUBLIC;
 
@@ -15,9 +14,10 @@ public class AlertReceiver extends BroadcastReceiver {
     private NotificationManager mNotificationManager;
     private static String title = "";
     private static String content = "";
-    private static long mostRecent = 0;
-    private static long wait = 0;
+    private static long wait = 43200000; //twelve hours
     private static int count = 0;
+
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -26,7 +26,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if ((mostRecent+wait) < System.currentTimeMillis()) {
+        if ((Stats.getMostRecent()+wait) < System.currentTimeMillis()) {
             if(Stats.getTotalEntries() == 0) {
                 sendWelcome();
             } else {
@@ -45,16 +45,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
             mNotificationManager.notify(1, notification);
             count++;
-            Log.i("Condition", ""+mostRecent+" "+count);
         }
-    }
-
-    public AlertReceiver() {
-
-    }
-
-    public static void setMostRecent(long mostRecent) {
-        AlertReceiver.mostRecent = mostRecent;
     }
 
     public void sendWelcome(){

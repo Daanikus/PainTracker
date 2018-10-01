@@ -18,7 +18,7 @@ public class MyNotificationChannel extends Application {
 
     private void createNotificationChannels() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel1 = new NotificationChannel(
+            android.app.NotificationChannel channel1 = new android.app.NotificationChannel(
                     CHANNEL_1_ID,
                     "Channel 1",
                     NotificationManager.IMPORTANCE_HIGH
@@ -26,7 +26,7 @@ public class MyNotificationChannel extends Application {
 
             channel1.setDescription("Test");
 
-            NotificationChannel channel2 = new NotificationChannel(
+            android.app.NotificationChannel channel2 = new android.app.NotificationChannel(
                     CHANNEL_2_ID,
                     "Channel 2",
                     NotificationManager.IMPORTANCE_LOW
