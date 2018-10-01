@@ -26,7 +26,7 @@ public class StatsActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, ''yy h:mm a");
 
         TextView mostRecent = (TextView) findViewById(R.id.mostRecent);
-        mostRecent.setText("Most Recent: "+ sdf.format(date));
+        mostRecent.setText("("+ sdf.format(date) +")");
 
         TextView maxPain = (TextView) findViewById(R.id.maxPain);
         maxPain.setText("Maximum: "+Stats.getMax());
